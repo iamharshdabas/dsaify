@@ -3,6 +3,15 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "bin": {
+    "dsaify": "./out/index.js"
+  },
+  "scripts": {
+    "build": "bun build ./src/index.ts --outdir ./out --external '*' --minify --watch",
+    "link:global": "bun link",
+    "link:local": "bun link dsaify",
+    "unlink:global": "bun unlink"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

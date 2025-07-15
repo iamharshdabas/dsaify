@@ -1,21 +1,26 @@
 {
-  "name": "dsaify",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
   "bin": {
     "dsaify": "./out/index.js"
   },
-  "scripts": {
-    "build": "bun build ./src/index.ts --outdir ./out --external '*' --minify --watch",
-    "link:global": "bun link",
-    "link:local": "bun link dsaify",
-    "unlink:global": "bun unlink"
-  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@biomejs/biome": "^2.1.1",
+    "@types/bun": "latest",
+    "lefthook": "^1.12.2"
   },
+  "module": "index.ts",
+  "name": "dsaify",
   "peerDependencies": {
     "typescript": "^5"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "build": "bun build ./src/index.ts --outdir ./out --external '*' --minify",
+    "build:watch": "bun build ./src/index.ts --outdir ./out --external '*' --minify --watch",
+    "link:local": "bun link",
+    "link:package": "bun link dsaify",
+    "lint:fix": "biome check --write .",
+    "prepare": "lefthook install",
+    "unlink:local": "bun unlink"
+  },
+  "type": "module"
 }

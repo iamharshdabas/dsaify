@@ -1,18 +1,20 @@
 #!/usr/bin/env bun
 
-function greet(name: string = "World") {
-  console.log(`Hello, ${name}! Welcome to your Bun CLI.`)
-}
+import chalk from "chalk"
+import { Command } from "commander"
+import rl from "./utils/readline"
 
-function main() {
-  const args = process.argv.slice(2)
-  const nameArg = args[0]
+const program = new Command()
 
-  if (nameArg) {
-    greet(nameArg)
-  } else {
-    greet()
-  }
-}
+program.name("Dsaify").version("0.0.0").description("A simple typing speed test CLI for DSA.")
 
-main()
+program
+  .command("start")
+  .description("Starts the typing test.")
+  .action(() => {
+    rl.on("line", (line) => {
+      console.log(chalk.white(line))
+    })
+  })
+
+program.parse()

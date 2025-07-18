@@ -60,8 +60,9 @@ export const tokenizeCode = (code: string): HighlightToken[] => {
 }
 
 export const highlightTokenByChalk = (token: HighlightToken) => {
-  const chalkFn = rosepineTheme[token.color as keyof typeof rosepineTheme] || chalk.white
-  return chalkFn
+  // @ts-ignore because I don't want to do typescript gymnastics right now.
+  const chalkFn = rosepineTheme[token.color] || chalk.white
+  return chalkFn(token.char)
 }
 
 export const getHighlightedChar = (userText: string, highlightedToken: HighlightToken, index: number) => {

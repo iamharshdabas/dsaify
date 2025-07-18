@@ -1,9 +1,15 @@
 #!/usr/bin/env bun
 
-import chalk from "chalk"
 import { Command } from "commander"
-import { highlightTokenByChalk, tokenizeCode } from "./utils/highlighter"
-import { cleanupAndExit, rlClearScreenDown, rlCursorTo, rlOnKeypress } from "./utils/readline"
+import { getHighlightedChar, tokenizeCode } from "./utils/highlighter"
+import {
+  rlClearScreenDown,
+  rlCursorTo,
+  rlCursorToLastUserInput,
+  rlKeypressEvents,
+  rlOnKeypress,
+  updateUserText,
+} from "./utils/readline"
 
 const program = new Command()
 
@@ -36,52 +42,21 @@ export const getHintedText = (hintText: string, userText: string) => {
     const highlightedTokens = tokenizeCode(hintText)
     let userText = ""
 
-    const render = () => {
-      let output = ""
-      let userTextIndex = 0
+    rlKeypressEvents()
 
-      for (const highlightedToken of highlightedTokens) {
-        if (userTextIndex < userText.length) {
-          if (userText[userTextIndex] === highlightedToken.chr) {
-            output += highlightTokenByChalk(highlightedToken)
-          } else {
-            output += chalk.black.bgRed(highlightedToken.chr)
-          }
-          userTextIndex++
-        } else {
-          output += chalk.dim(highlightedToken.chr)
-        }
-      }
+    const render = () => {
+      const output = highlightedTokens
+        .map((highlightedToken, index) => getHighlightedChar(userText, highlightedToken, index))
+        .join("")
 
       rlCursorTo(0, 0)
       rlClearScreenDown()
       process.stdout.write(output)
-
-      const userLines = userText.split("\n")
-      const currentLine = userLines.length - 1
-      const currentLineText = userLines[currentLine] || ""
-      rlCursorTo(currentLineText.length, currentLine)
+      rlCursorToLastUserInput(userText)
     }
 
     rlOnKeypress((str, key) => {
-      if (key.ctrl && key.name === "c") {
-        cleanupAndExit()
-      }
-
-      switch (key.name) {
-        case "backspace":
-          userText = userText.slice(0, -1)
-          break
-        case "tab":
-          userText += "  "
-          break
-        case "return":
-          userText += "\n"
-          break
-        default:
-          userText += str
-      }
-
+      userText = updateUserText(userText, str, key)
       render()
     })
 

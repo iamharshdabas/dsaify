@@ -2,7 +2,7 @@ import chalk from "chalk"
 import { createHighlighter } from "shiki"
 
 type HighlightToken = {
-  chr: string
+  char: string
   color: string
 }
 
@@ -36,67 +36,42 @@ const highlighter = await createHighlighter({
   ],
 })
 
-export const tokenizeCode = (code: string) => {
+export const tokenizeCode = (code: string): HighlightToken[] => {
   const tokens = highlighter.codeToTokensBase(code, {
     lang: "typescript",
     theme: "rose-pine",
   })
 
-  const highlightedCode: HighlightToken[] = []
-
-  for (const token of tokens) {
-    for (const word of token) {
-      for (const chr of word.content) {
-        highlightedCode.push({
-          chr,
-          color: word.color || "#ffffff",
-        })
-      }
-    }
-    highlightedCode.push({
-      chr: "\n",
-      color: "#ffffff",
-    })
-  }
-
-  return highlightedCode
+  return tokens.flatMap((token) => {
+    const wordTokens = token.flatMap((word) =>
+      word.content.split("").map((char) => ({
+        char,
+        color: word.color || "#ffffff",
+      })),
+    )
+    return [
+      ...wordTokens,
+      {
+        char: "\n",
+        color: "#ffffff",
+      },
+    ]
+  })
 }
 
 export const highlightTokenByChalk = (token: HighlightToken) => {
-  let output = ""
+  const chalkFn = rosepineTheme[token.color as keyof typeof rosepineTheme] || chalk.white
+  return chalkFn
+}
 
-  switch (token.color) {
-    case "#6E6A86":
-      output = rosepineTheme["#6E6A86"](token.chr)
-      break
-    case "#9CCFD8":
-      output = rosepineTheme["#9CCFD8"](token.chr)
-      break
-    case "#908CAA":
-      output = rosepineTheme["#908CAA"](token.chr)
-      break
-    case "#31748F":
-      output = rosepineTheme["#31748F"](token.chr)
-      break
-    case "#c4A7E7":
-      output = rosepineTheme["#C4A7E7"](token.chr)
-      break
-    case "#E0DEF4":
-      output = rosepineTheme["#E0DEF4"](token.chr)
-      break
-    case "#EB6F92":
-      output = rosepineTheme["#EB6F92"](token.chr)
-      break
-    case "#EBBCBA":
-      output = rosepineTheme["#EBBCBA"](token.chr)
-      break
-    case "#F6C177":
-      output = rosepineTheme["#F6C177"](token.chr)
-      break
-    default:
-      output = rosepineTheme["#E0DEF4"](token.chr)
-      break
+export const getHighlightedChar = (userText: string, highlightedToken: HighlightToken, index: number) => {
+  if (index < userText.length) {
+    if (userText[index] === highlightedToken.char) {
+      return highlightTokenByChalk(highlightedToken)
+    } else {
+      return chalk.black.bgRed(highlightedToken.char)
+    }
+  } else {
+    return chalk.dim(highlightedToken.char)
   }
-
-  return output
 }

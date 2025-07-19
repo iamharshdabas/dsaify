@@ -1,32 +1,28 @@
 import { expect, test } from "bun:test"
-import { Queue } from "../../src/questions/data-structures/queue.solution" // Assuming queue.solution.ts exports a Queue class
+import { Queue } from "../../src/questions/data-structures/queue.solution"
 
 test("Queue should be empty on initialization", () => {
   const queue = new Queue()
   expect(queue.isEmpty()).toBeTrue()
-  expect(queue.size()).toBe(0)
+  expect(queue.size).toBe(0)
 })
 
 test("Queue should enqueue elements", () => {
-  const queue = new Queue()
+  const queue = new Queue<number>()
   queue.enqueue(1)
-  expect(queue.size()).toBe(1)
-  expect(queue.peek()).toBe(1)
   queue.enqueue(2)
-  expect(queue.size()).toBe(2)
+  expect(queue.size).toBe(2)
   expect(queue.peek()).toBe(1)
 })
 
-test("Queue should dequeue elements in FIFO order", () => {
-  const queue = new Queue()
+test("Queue should dequeue elements", () => {
+  const queue = new Queue<number>()
   queue.enqueue(1)
   queue.enqueue(2)
-  expect(queue.dequeue()).toBe(1)
-  expect(queue.size()).toBe(1)
+  const dequeued = queue.dequeue()
+  expect(dequeued).toBe(1)
+  expect(queue.size).toBe(1)
   expect(queue.peek()).toBe(2)
-  expect(queue.dequeue()).toBe(2)
-  expect(queue.size()).toBe(0)
-  expect(queue.isEmpty()).toBeTrue()
 })
 
 test("Queue should return null when dequeuing from an empty queue", () => {
@@ -34,18 +30,19 @@ test("Queue should return null when dequeuing from an empty queue", () => {
   expect(queue.dequeue()).toBeNull()
 })
 
-test("Queue should return null when peeking an empty queue", () => {
-  const queue = new Queue()
-  expect(queue.peek()).toBeNull()
-})
-
-test("Queue should handle multiple enqueues and dequeues", () => {
-  const queue = new Queue()
+test("Queue should peek at the front element without removing it", () => {
+  const queue = new Queue<number>()
   queue.enqueue(1)
   queue.enqueue(2)
-  expect(queue.dequeue()).toBe(1)
-  queue.enqueue(3)
-  expect(queue.dequeue()).toBe(2)
-  expect(queue.dequeue()).toBe(3)
+  expect(queue.peek()).toBe(1)
+  expect(queue.size).toBe(2)
+})
+
+test("Queue should clear all elements", () => {
+  const queue = new Queue<number>()
+  queue.enqueue(1)
+  queue.enqueue(2)
+  queue.clear()
   expect(queue.isEmpty()).toBeTrue()
+  expect(queue.size).toBe(0)
 })

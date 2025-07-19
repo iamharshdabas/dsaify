@@ -1,0 +1,51 @@
+Merge Sort
+
+What is Merge Sort?
+
+Merge Sort is an efficient, comparison-based sorting algorithm that follows the divide-and-conquer paradigm. It works by recursively dividing an unsorted list into `n` sublists, each containing one element (a list of one element is considered sorted). Then, it repeatedly merges sublists to produce new sorted sublists until there is only one sorted sublist remaining, which is the sorted version of the original list.
+
+How it Works:
+
+Merge Sort consists of two main phases:
+
+1.  **Divide:** The unsorted list is recursively divided into two halves until each sublist contains only one element. A single-element list is inherently sorted.
+
+2.  **Conquer (Merge):** The sorted sublists are repeatedly merged to produce new sorted sublists. This merging process is crucial:
+    *   It takes two already sorted sublists as input.
+    *   It compares the first elements of both sublists.
+    *   The smaller element is moved to a new, merged list.
+    *   This process continues until all elements from both sublists are moved to the merged list.
+    *   The result is a single, sorted list.
+
+This merging continues upwards until all the divided sublists are merged back into a single, fully sorted list.
+
+Key Characteristics:
+
+*   **Divide and Conquer:** It's a classic example of this algorithmic paradigm.
+*   **Stable Sort:** Merge Sort is a stable sorting algorithm, meaning that if two elements have equal values, their relative order in the input array is preserved in the sorted output.
+*   **Time Complexity:** It has a time complexity of O(n log n) in all cases (best, average, and worst). This makes it a very reliable and efficient sorting algorithm for large datasets.
+*   **Space Complexity:** The space complexity is O(n) because it requires an auxiliary array for merging the sublists.
+
+How to Implement it (Conceptual Steps):
+
+1.  **`mergeSort(arr)` Function:**
+    *   **Base Case:** If the array `arr` has 0 or 1 element, it's already sorted, so return `arr`.
+    *   **Divide:** Calculate the middle index (`mid`). Divide `arr` into two halves: `left` (from index 0 to `mid-1`) and `right` (from index `mid` to end).
+    *   **Conquer:** Recursively call `mergeSort(left)` and `mergeSort(right)` to sort the two halves.
+    *   **Combine:** Call a `merge(leftSorted, rightSorted)` helper function to combine the two sorted halves into a single sorted array, and return the result.
+
+2.  **`merge(left, right)` Function (Helper):**
+    *   Initialize an empty `result` array.
+    *   Initialize two pointers, `leftIndex = 0` and `rightIndex = 0`.
+    *   **Comparison Loop:** While `leftIndex` is within bounds of `left` and `rightIndex` is within bounds of `right`:
+        *   Compare `left[leftIndex]` and `right[rightIndex]`.
+        *   Append the smaller element to `result` and increment its respective pointer.
+    *   **Append Remaining:** After the loop, one of the arrays might still have remaining elements. Append all remaining elements from `left` (if any) and `right` (if any) to `result`.
+    *   Return `result`.
+
+Hints:
+
+*   **Recursion:** Understanding recursion is key to implementing the `mergeSort` function.
+*   **Merging Logic:** The `merge` function is the core of the algorithm. Ensure it correctly combines two sorted arrays into one.
+*   **Auxiliary Space:** Remember that Merge Sort requires additional space for the temporary arrays used during the merging process.
+*   **Applications:** Merge Sort is often used for external sorting (when data is too large to fit into memory) and for parallel sorting because the divide step can be easily parallelized.

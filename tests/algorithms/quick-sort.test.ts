@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { quickSort } from "../../src/questions/algorithms/quick-sort.solution" // Assuming quick-sort.solution.ts exports a quickSort function
+import quickSort from "../../src/questions/algorithms/quick-sort.solution" // Assuming quick-sort.solution.ts exports a quickSort function
 
 test("quickSort should sort an array of numbers in ascending order", () => {
   const arr = [

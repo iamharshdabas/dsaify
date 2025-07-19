@@ -1,31 +1,63 @@
+/**
+ * @class Stack
+ * @description A linear data structure that follows the Last-In, First-Out (LIFO) principle.
+ * @template T The type of the values stored in the stack.
+ */
 export class Stack<T> {
-  private items: T[] = []
+  private items: T[]
 
-  constructor(items: T[] = []) {
-    this.items = items
+  constructor() {
+    this.items = []
   }
 
-  push(item: T): void {
-    this.items.push(item)
-  }
-
-  pop(): T | undefined {
-    return this.items.pop()
-  }
-
-  peek(): T | undefined {
-    return this.items[this.items.length - 1]
-  }
-
-  isEmpty(): boolean {
-    return this.items.length === 0
-  }
-
-  size(): number {
+  /**
+   * @returns The number of elements in the stack.
+   */
+  public get size(): number {
     return this.items.length
   }
 
-  clear(): void {
+  /**
+   * @returns `true` if the stack is empty, `false` otherwise.
+   */
+  public isEmpty(): boolean {
+    return this.items.length === 0
+  }
+
+  /**
+   * @description Adds a new element to the top of the stack.
+   * @param item The element to add.
+   */
+  public push(item: T): void {
+    this.items.push(item)
+  }
+
+  /**
+   * @description Removes and returns the element at the top of the stack.
+   * @returns The element at the top of the stack, or `null` if the stack is empty.
+   */
+  public pop(): T | null {
+    if (this.isEmpty()) {
+      return null
+    }
+    return this.items.pop()!
+  }
+
+  /**
+   * @description Returns the element at the top of the stack without removing it.
+   * @returns The element at the top of the stack, or `null` if the stack is empty.
+   */
+  public peek(): T | null {
+    if (this.isEmpty()) {
+      return null
+    }
+    return this.items[this.items.length - 1]
+  }
+
+  /**
+   * @description Removes all elements from the stack.
+   */
+  public clear(): void {
     this.items = []
   }
 }

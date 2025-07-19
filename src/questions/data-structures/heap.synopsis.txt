@@ -1,0 +1,32 @@
+Min Heap
+
+What is a Heap?
+
+A heap is a specialized tree-based data structure that satisfies the heap property. In a min heap, for any given node C, if P is a parent node of C, then the value of P is less than or equal to the value of C. This means the smallest element is always at the root of the tree. Heaps are typically implemented as arrays, which saves the overhead of storing pointers to child nodes.
+
+How it Works:
+
+- A heap is a complete binary tree, which means all levels of the tree are fully filled except possibly for the last level, which is filled from left to right.
+- The heap property is maintained through two primary operations: `heapifyUp` and `heapifyDown`.
+- `heapifyUp`: When a new element is added to the heap, it is placed at the end of the array. Then, it is repeatedly compared with its parent and swapped if it is smaller, until the heap property is restored.
+- `heapifyDown`: When the minimum element (the root) is removed, it is replaced by the last element in the heap. Then, this element is repeatedly compared with its children and swapped with the smaller child, until the heap property is restored.
+
+How to Implement it:
+
+1.  **MinHeap Class:** Create a `MinHeap` class with a `heap` property, which is an array.
+2.  **Helper Methods:** Implement helper methods to get the indices of parent and child nodes, and to check for their existence.
+3.  **`insert` Method:**
+    - Add the new element to the end of the `heap` array.
+    - Call `heapifyUp` to restore the heap property.
+4.  **`extractMin` Method:**
+    - If the heap is empty, return `null`.
+    - Store the root element (the minimum).
+    - Replace the root with the last element in the heap.
+    - Call `heapifyDown` to restore the heap property.
+    - Return the stored minimum element.
+
+Hints:
+
+- The array representation of a heap is very efficient. For a node at index `i`, its left child is at index `2i + 1`, its right child is at index `2i + 2`, and its parent is at index `floor((i - 1) / 2)`.
+- Heaps are the basis for the Heap Sort algorithm and are commonly used to implement priority queues.
+- A max heap is the opposite of a min heap, where the largest element is always at the root. The implementation is very similar, with the comparisons reversed.

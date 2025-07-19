@@ -1,119 +1,102 @@
 import { expect, test } from "bun:test"
-import { dfs } from "../../src/questions/algorithms/dfs.solution" // Assuming dfs.solution.ts exports a dfs function
+import { dfs } from "../../src/questions/algorithms/dfs.solution"
 
-test("DFS should correctly traverse a simple graph", () => {
-  const graph = {
-    A: [
-      "B",
-      "C",
-    ],
-    B: [
-      "D",
-      "E",
-    ],
-    C: [
-      "F",
-    ],
-    D: [],
-    E: [
-      "F",
-    ],
-    F: [],
-  }
-  const startNode = "A"
-  const result = dfs(graph, startNode)
-  // DFS traversal order can vary based on adjacency list order, but all reachable nodes should be visited
-  expect(result).toContain("A")
-  expect(result).toContain("B")
-  expect(result).toContain("C")
-  expect(result).toContain("D")
-  expect(result).toContain("E")
-  expect(result).toContain("F")
-  expect(result.length).toBe(6)
-})
+test("DFS on a simple graph", () => {
+  const graph = new Map<string, string[]>()
+  graph.set("A", [
+    "B",
+    "C",
+  ])
+  graph.set("B", [
+    "D",
+    "E",
+  ])
+  graph.set("C", [
+    "F",
+  ])
+  graph.set("D", [])
+  graph.set("E", [
+    "F",
+  ])
+  graph.set("F", [])
 
-test("DFS should handle a graph with a single node", () => {
-  const graph = {
-    A: [],
-  }
-  const startNode = "A"
-  const expectedTraversal = [
+  const result = dfs(graph, "A")
+  expect(result).toEqual([
     "A",
-  ]
-  const result = dfs(graph, startNode)
-  expect(result).toEqual(expectedTraversal)
+    "B",
+    "D",
+    "E",
+    "F",
+    "C",
+  ])
 })
 
-test("DFS should handle a disconnected graph", () => {
-  const graph = {
-    A: [
-      "B",
-    ],
-    B: [],
-    C: [
-      "D",
-    ],
-    D: [],
-  }
-  const startNode = "A"
-  const result = dfs(graph, startNode)
-  expect(result).toContain("A")
-  expect(result).toContain("B")
-  expect(result.length).toBe(2)
+test("DFS on a graph with a single node", () => {
+  const graph = new Map<string, string[]>()
+  graph.set("A", [])
+
+  const result = dfs(graph, "A")
+  expect(result).toEqual([
+    "A",
+  ])
 })
 
-test("DFS should handle a graph with cycles", () => {
-  const graph = {
-    A: [
-      "B",
-    ],
-    B: [
-      "C",
-    ],
-    C: [
-      "A",
-    ],
-  }
-  const startNode = "A"
-  const result = dfs(graph, startNode)
-  expect(result).toContain("A")
-  expect(result).toContain("B")
-  expect(result).toContain("C")
-  expect(result.length).toBe(3)
+test("DFS on an empty graph", () => {
+  const graph = new Map<string, string[]>()
+
+  const result = dfs(graph, "A")
+  expect(result).toEqual([])
 })
 
-test("DFS should return an empty array for an empty graph", () => {
-  const graph = {}
-  const startNode = "A"
-  const expectedTraversal: string[] = []
-  const result = dfs(graph, startNode)
-  expect(result).toEqual(expectedTraversal)
+test("DFS on a disconnected graph", () => {
+  const graph = new Map<string, string[]>()
+  graph.set("A", [
+    "B",
+  ])
+  graph.set("B", [
+    "A",
+  ])
+  graph.set("C", [
+    "D",
+  ])
+  graph.set("D", [
+    "C",
+  ])
+
+  const result = dfs(graph, "A")
+  expect(result).toEqual([
+    "A",
+    "B",
+  ])
 })
 
-test("DFS should find a path between two nodes", () => {
-  const graph = {
-    A: [
-      "B",
-      "C",
-    ],
-    B: [
-      "D",
-      "E",
-    ],
-    C: [
-      "F",
-    ],
-    D: [],
-    E: [
-      "F",
-    ],
-    F: [],
-  }
-  const startNode = "A"
-  const targetNode = "F"
+test("DFS with cycles", () => {
+  const graph = new Map<string, string[]>()
+  graph.set("A", [
+    "B",
+    "C",
+  ])
+  graph.set("B", [
+    "A",
+    "D",
+  ])
+  graph.set("C", [
+    "A",
+    "D",
+  ])
+  graph.set("D", [
+    "B",
+    "C",
+  ])
 
-  // Assuming DFS is modified to return true if path exists, or the path itself
-  // For a standard DFS that returns traversal order, this test might need adjustment
-  const result = dfs(graph, startNode)
-  expect(result).toContain(targetNode)
+  const result = dfs(graph, "A")
+  // The exact order might vary slightly depending on iteration order of Map keys,
+  // but all reachable nodes should be present and in a valid DFS order.
+  // For example, A -> B -> D -> C is a valid DFS order.
+  expect(result).toEqual([
+    "A",
+    "B",
+    "D",
+    "C",
+  ])
 })

@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { mergeSort } from "../../src/questions/algorithms/merge-sort.solution" // Assuming merge-sort.solution.ts exports a mergeSort function
+import mergeSort from "../../src/questions/algorithms/merge-sort.solution" // Assuming merge-sort.solution.ts exports a mergeSort function
 
 test("mergeSort should sort an array of numbers in ascending order", () => {
   const arr = [

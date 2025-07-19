@@ -1,0 +1,32 @@
+Queue
+
+What is a Queue?
+
+A queue is a linear data structure that follows the First-In, First-Out (FIFO) principle. This means that the first element added to the queue will be the first one to be removed. It is analogous to a real-world queue of people waiting in line, where the person who gets in line first is the first one to be served.
+
+How it Works:
+
+- A queue has two main operations: `enqueue` and `dequeue`.
+- `enqueue`: Adds an element to the rear of the queue.
+- `dequeue`: Removes an element from the front of the queue.
+- A `peek` operation is often included to view the element at the front of the queue without removing it.
+- Queues can be implemented using arrays or linked lists.
+
+How to Implement it:
+
+1.  **Queue Class:** Create a `Queue` class with an `items` property, which is an array.
+2.  **`enqueue` Method:**
+    - Use the `push` method of the array to add an element to the end.
+3.  **`dequeue` Method:**
+    - Use the `shift` method of the array to remove and return the first element.
+4.  **`peek` Method:**
+    - Return the element at the first index of the array.
+5.  **Helper Methods:**
+    - `isEmpty`: Checks if the queue is empty.
+    - `size`: Returns the number of elements in the queue.
+
+Hints:
+
+- Using an array to implement a queue is simple, but the `shift` operation can be inefficient for large queues as it requires re-indexing all the remaining elements.
+- For a more performant queue, especially for a large number of elements, a linked list implementation is often preferred.
+- Queues are widely used in computer science for tasks such as scheduling, buffering, and implementing algorithms like Breadth-First Search (BFS).

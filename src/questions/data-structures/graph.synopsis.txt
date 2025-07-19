@@ -1,0 +1,38 @@
+Graph (Adjacency List)
+
+What is a Graph?
+
+A graph is a non-linear data structure consisting of a set of vertices (or nodes) and a set of edges that connect pairs of vertices. Graphs are used to model relationships between objects and are widely used in computer science for representing networks, such as social networks, transportation systems, and computer networks.
+
+How it Works:
+
+- An adjacency list is a common way to represent a graph. It is a collection of unordered lists, one for each vertex in the graph. Each list describes the set of neighbors of its vertex.
+- In this implementation, we use a `Map` to store the adjacency list, where the keys are the vertices and the values are arrays of their adjacent vertices.
+- Adding a vertex involves adding a new key to the map with an empty array as its value.
+- Adding an edge between two vertices involves adding each vertex to the other's adjacency list.
+
+How to Implement it:
+
+1.  **Graph Class:** Create a `Graph` class with a `adjList` property, which is a `Map`.
+2.  **`addVertex` Method:**
+    - Takes a vertex as input.
+    - If the vertex is not already in the `adjList`, add it as a key with an empty array as its value.
+3.  **`addEdge` Method:**
+    - Takes two vertices as input.
+    - For each vertex, if it's not in the `adjList`, add it.
+    - Add each vertex to the other's adjacency list.
+4.  **`removeVertex` Method:**
+    - Takes a vertex as input.
+    - If the vertex exists, remove it from the `adjList`.
+    - Iterate through the remaining vertices and remove the deleted vertex from their adjacency lists.
+5.  **`removeEdge` Method:**
+    - Takes two vertices as input.
+    - Remove each vertex from the other's adjacency list.
+6.  **`bfs` and `dfs` Methods:**
+    - Implement these traversal algorithms using a queue for BFS and recursion (or a stack) for DFS.
+
+Hints:
+
+- The choice between an adjacency list and an adjacency matrix to represent a graph depends on the specific use case. Adjacency lists are generally more efficient for sparse graphs.
+- When implementing traversal algorithms, keep track of visited nodes to avoid infinite loops in graphs with cycles.
+- The `bfs` and `dfs` methods can be used to solve a variety of graph problems, such as finding connected components, shortest paths, and cycle detection.

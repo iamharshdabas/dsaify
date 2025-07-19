@@ -6,7 +6,7 @@ const binarySearchQuestion: Question = {
   id: "e6f7g8h9-i0j1-2345-6789-0abcdef12345",
   level: "Easy",
   solution: await getFileContent(createFilePath(ALGORITHMS_DIR, "binary-search.solution.ts")),
-  synopsis: await getFileContent(createFilePath(ALGORITHMS_DIR, "binary-search.synopsis.md")),
+  synopsis: await getFileContent(createFilePath(ALGORITHMS_DIR, "binary-search.synopsis.txt")),
   title: "Binary Search",
 }
 

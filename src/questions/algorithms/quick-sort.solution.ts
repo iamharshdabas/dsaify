@@ -1,31 +1,31 @@
-function quickSort<T extends number | string>(arr: T[]): T[] {
-  if (arr.length <= 1) {
-    return arr
+function quickSort<T extends number | string>(arr: T[], low: number = 0, high: number = arr.length - 1): T[] {
+  if (low < high) {
+    const pivotIndex = partition(arr, low, high)
+    quickSort(arr, low, pivotIndex - 1)
+    quickSort(arr, pivotIndex + 1, high)
   }
+  return arr
+}
 
-  const pivot = arr[Math.floor(arr.length / 2)]
-  if (pivot === undefined) {
-    return arr // Should not happen due to arr.length <= 1 check
-  }
-  const left: T[] = []
-  const right: T[] = []
-  const equal: T[] = []
+function partition<T extends number | string>(arr: T[], low: number, high: number): number {
+  const pivot = arr[high]
+  let i = low - 1
 
-  for (const item of arr) {
-    if (item < pivot) {
-      left.push(item)
-    } else if (item > pivot) {
-      right.push(item)
-    } else {
-      equal.push(item)
+  for (let j = low; j < high; j++) {
+    if (arr[j] <= pivot) {
+      i++
+      ;[arr[i], arr[j]] = [
+        arr[j],
+        arr[i],
+      ] // Swap
     }
   }
 
-  return [
-    ...quickSort(left),
-    ...equal,
-    ...quickSort(right),
-  ]
+  ;[arr[i + 1], arr[high]] = [
+    arr[high],
+    arr[i + 1],
+  ] // Swap pivot to its correct position
+  return i + 1
 }
 
 export default quickSort

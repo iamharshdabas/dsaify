@@ -1,0 +1,63 @@
+Depth-First Search (DFS)
+
+What is Depth-First Search (DFS)?
+
+Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. It starts at a specified source vertex and explores as deeply as possible along each path before returning to explore other branches. This process continues until all reachable vertices have been visited.
+
+How it Works:
+
+DFS typically uses a stack data structure (either explicitly or implicitly through recursion) to manage the order of vertices to be visited. The general steps are as follows:
+
+1.  **Initialization:**
+    *   Create a set or array to keep track of visited vertices to avoid cycles and redundant processing. Mark the starting vertex as visited.
+    *   Create a list to store the order of visited vertices (the result of the DFS).
+    *   (Implicitly or explicitly) Push the starting vertex onto a stack.
+
+2.  **Traversal (Recursive Approach - most common):**
+    *   Define a recursive helper function `dfsRecursive(currentNode)`:
+        *   Mark `currentNode` as visited.
+        *   Add `currentNode` to the result list.
+        *   For each unvisited neighbor of `currentNode`:
+            *   Recursively call `dfsRecursive(neighbor)`.
+
+3.  **Traversal (Iterative Approach - using an explicit stack):**
+    *   Push the starting vertex onto a stack.
+    *   While the stack is not empty:
+        *   Pop a vertex from the top of the stack. This is the `current` vertex.
+        *   If `current` has not been visited:
+            *   Mark `current` as visited.
+            *   Add `current` to the result list.
+            *   For each unvisited neighbor of `current` (often pushed in reverse order to maintain desired traversal order):
+                *   Push the neighbor onto the stack.
+
+4.  **Termination:** The algorithm terminates when all reachable vertices have been visited and the stack (or recursion call stack) is empty.
+
+Key Characteristics:
+
+*   **Depth-First Exploration:** DFS explores as deeply as possible along each path before backtracking.
+*   **Data Structure:** It primarily uses a stack (LIFO - Last-In, First-Out) to manage the order of exploration. Recursion implicitly uses the call stack.
+*   **Applications:** DFS is suitable for problems that involve searching through a tree or graph structure where the order of visiting nodes doesn't matter as much as exploring all paths, such as topological sorting, cycle detection, and finding connected components.
+
+How to Implement it (Conceptual Steps - Recursive):
+
+1.  **Function Signature:** Define a function `dfs(graph, startNode)` that takes the graph (e.g., an adjacency list) and the starting node as input.
+2.  **Visited Set:** Initialize an empty `Set` called `visited`.
+3.  **Result Array:** Initialize an empty array `result`.
+4.  **Recursive Helper:** Define an inner recursive function `dfsRecursive(currentNode)`:
+    *   Add `currentNode` to `visited`.
+    *   Add `currentNode` to `result`.
+    *   Get neighbors of `currentNode` from `graph`.
+    *   For each `neighbor`, if not in `visited`, call `dfsRecursive(neighbor)`.
+5.  **Initial Call:** Call `dfsRecursive(startNode)`.
+6.  **Return Result:** Return the `result` array.
+
+Hints:
+
+*   **Graph Representation:** Similar to BFS, DFS can be applied to graphs represented using adjacency lists or adjacency matrices. The provided solution uses a `Map` for an adjacency list.
+*   **Avoiding Cycles:** The `visited` set is essential to prevent infinite loops in graphs with cycles.
+*   **Applications:** DFS is used in various algorithms and applications, including:
+    *   Topological sorting (for Directed Acyclic Graphs - DAGs).
+    *   Finding connected components in a graph.
+    *   Cycle detection in graphs.
+    *   Solving puzzles with a single solution (e.g., mazes, sudoku).
+    *   Pathfinding (though BFS is often preferred for shortest paths in unweighted graphs).

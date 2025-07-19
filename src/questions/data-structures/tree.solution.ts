@@ -10,7 +10,7 @@ class TreeNode<T> {
   }
 }
 
-export class BinaryTree<T> {
+export class BinarySearchTree<T> {
   root: TreeNode<T> | null
 
   constructor() {
@@ -42,7 +42,7 @@ export class BinaryTree<T> {
     }
   }
 
-  search(value: T): boolean {
+  find(value: T): boolean {
     if (!this.root) {
       return false
     }
@@ -61,30 +61,95 @@ export class BinaryTree<T> {
     return false
   }
 
-  inOrderTraversal(node: TreeNode<T> | null = this.root, result: T[] = []): T[] {
-    if (node) {
-      this.inOrderTraversal(node.left, result)
-      result.push(node.value)
-      this.inOrderTraversal(node.right, result)
+  min(): T | null {
+    if (!this.root) {
+      return null
     }
-    return result
+    let current = this.root
+    while (current.left) {
+      current = current.left
+    }
+    return current.value
   }
 
-  preOrderTraversal(node: TreeNode<T> | null = this.root, result: T[] = []): T[] {
-    if (node) {
-      result.push(node.value)
-      this.preOrderTraversal(node.left, result)
-      this.preOrderTraversal(node.right, result)
+  max(): T | null {
+    if (!this.root) {
+      return null
     }
-    return result
+    let current = this.root
+    while (current.right) {
+      current = current.right
+    }
+    return current.value
   }
 
-  postOrderTraversal(node: TreeNode<T> | null = this.root, result: T[] = []): T[] {
-    if (node) {
-      this.postOrderTraversal(node.left, result)
-      this.postOrderTraversal(node.right, result)
-      result.push(node.value)
+  delete(value: T): void {
+    this.root = this._deleteNode(this.root, value)
+  }
+
+  private _deleteNode(node: TreeNode<T> | null, value: T): TreeNode<T> | null {
+    if (!node) {
+      return null
     }
-    return result
+
+    if (value < node.value) {
+      node.left = this._deleteNode(node.left, value)
+    } else if (value > node.value) {
+      node.right = this._deleteNode(node.right, value)
+    } else {
+      // Node with no children or one child
+      if (!node.left && !node.right) {
+        return null
+      } else if (!node.left) {
+        return node.right
+      } else if (!node.right) {
+        return node.left
+      } else {
+        // Node with two children: Get the inorder successor (smallest in the right subtree)
+        let tempNode = node.right
+        while (tempNode.left) {
+          tempNode = tempNode.left
+        }
+        node.value = tempNode.value
+        node.right = this._deleteNode(node.right, tempNode.value)
+      }
+    }
+    return node
+  }
+
+  inOrderTraversal(callback: (value: T) => void): void {
+    this._inOrderTraversal(this.root, callback)
+  }
+
+  private _inOrderTraversal(node: TreeNode<T> | null, callback: (value: T) => void): void {
+    if (node) {
+      this._inOrderTraversal(node.left, callback)
+      callback(node.value)
+      this._inOrderTraversal(node.right, callback)
+    }
+  }
+
+  preOrderTraversal(callback: (value: T) => void): void {
+    this._preOrderTraversal(this.root, callback)
+  }
+
+  private _preOrderTraversal(node: TreeNode<T> | null, callback: (value: T) => void): void {
+    if (node) {
+      callback(node.value)
+      this._preOrderTraversal(node.left, callback)
+      this._preOrderTraversal(node.right, callback)
+    }
+  }
+
+  postOrderTraversal(callback: (value: T) => void): void {
+    this._postOrderTraversal(this.root, callback)
+  }
+
+  private _postOrderTraversal(node: TreeNode<T> | null, callback: (value: T) => void): void {
+    if (node) {
+      this._postOrderTraversal(node.left, callback)
+      this._postOrderTraversal(node.right, callback)
+      callback(node.value)
+    }
   }
 }

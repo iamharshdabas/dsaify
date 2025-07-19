@@ -1,1 +1,0 @@
-A Heap is a specialized tree-based data structure that satisfies the heap property: if P is a parent node of C, then the value of P is either greater than or equal to (in a max heap) or less than or equal to (in a min heap) the value of C. Heaps are commonly used to implement priority queues and are fundamental to algorithms like Heap Sort and Dijkstra's algorithm.

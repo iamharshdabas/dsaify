@@ -1,0 +1,40 @@
+Doubly Linked List
+
+What is a Doubly Linked List?
+
+A doubly linked list is a linear data structure that consists of a sequence of nodes, where each node contains a value and two pointers: `next` and `prev`. The `next` pointer points to the next node in the sequence, and the `prev` pointer points to the previous node. This bidirectional linkage allows for traversal in both forward and backward directions.
+
+How it Works:
+
+- Each node in a doubly linked list is an object with three properties: `value`, `next`, and `prev`.
+- The list maintains a `head` pointer to the first node and a `tail` pointer to the last node.
+- When a new node is added, the `next` and `prev` pointers of the surrounding nodes are updated to maintain the integrity of the list.
+- Traversal can start from the `head` and move forward using the `next` pointer, or start from the `tail` and move backward using the `prev` pointer.
+
+How to Implement it:
+
+1.  **Node Class:** Create a `DoublyLinkedListNode` class with properties for `value`, `next`, and `prev`.
+2.  **DoublyLinkedList Class:** Create a `DoublyLinkedList` class with properties for `head`, `tail`, and `length`.
+3.  **`addTail` Method:**
+    - Create a new node.
+    - If the list is empty, set both `head` and `tail` to the new node.
+    - Otherwise, set the `next` of the current `tail` to the new node, the `prev` of the new node to the current `tail`, and update the `tail` to be the new node.
+4.  **`addHead` Method:**
+    - Create a new node.
+    - If the list is empty, set both `head` and `tail` to the new node.
+    - Otherwise, set the `prev` of the current `head` to the new node, the `next` of the new node to the current `head`, and update the `head` to be the new node.
+5.  **`removeTail` Method:**
+    - If the list is not empty, store the value of the `tail`.
+    - If there's only one node, set `head` and `tail` to `null`.
+    - Otherwise, update the `tail` to be the previous node and set the new `tail`'s `next` to `null`.
+6.  **`removeHead` Method:**
+    - If the list is not empty, store the value of the `head`.
+    - If there's only one node, set `head` and `tail` to `null`.
+    - Otherwise, update the `head` to be the next node and set the new `head`'s `prev` to `null`.
+
+Hints:
+
+- Always handle the edge case of an empty list.
+- When adding or removing nodes, be careful to update both the `next` and `prev` pointers correctly.
+- Keep track of the `length` of the list to provide a `size` method with O(1) time complexity.
+- The `find` method is useful for implementing the `delete` method.

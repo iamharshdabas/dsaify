@@ -4,16 +4,16 @@ import { Stack } from "../../src/questions/data-structures/stack.solution" // As
 test("Stack should be empty on initialization", () => {
   const stack = new Stack()
   expect(stack.isEmpty()).toBeTrue()
-  expect(stack.size()).toBe(0)
+  expect(stack.size).toBe(0)
 })
 
 test("Stack should push elements", () => {
   const stack = new Stack()
   stack.push(1)
-  expect(stack.size()).toBe(1)
+  expect(stack.size).toBe(1)
   expect(stack.peek()).toBe(1)
   stack.push(2)
-  expect(stack.size()).toBe(2)
+  expect(stack.size).toBe(2)
   expect(stack.peek()).toBe(2)
 })
 
@@ -22,10 +22,10 @@ test("Stack should pop elements in LIFO order", () => {
   stack.push(1)
   stack.push(2)
   expect(stack.pop()).toBe(2)
-  expect(stack.size()).toBe(1)
+  expect(stack.size).toBe(1)
   expect(stack.peek()).toBe(1)
   expect(stack.pop()).toBe(1)
-  expect(stack.size()).toBe(0)
+  expect(stack.size).toBe(0)
   expect(stack.isEmpty()).toBeTrue()
 })
 

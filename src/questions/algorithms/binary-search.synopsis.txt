@@ -1,0 +1,47 @@
+Binary Search
+
+What is Binary Search?
+
+Binary Search is an efficient algorithm for finding a specific item within a sorted array or list. It works by repeatedly dividing the search interval in half. If the value of the search key is less than the item in the middle of the interval, the algorithm narrows the interval to the lower half. Otherwise, it narrows it to the upper half. This process continues until the value is found or the interval is empty.
+
+How it Works:
+
+Binary Search operates on the principle of 'divide and conquer'. Here's a step-by-step breakdown:
+
+1.  **Initialization:**
+    *   Define a `low` pointer at the beginning of the array (index 0).
+    *   Define a `high` pointer at the end of the array (index `array.length - 1`).
+
+2.  **Iteration:**
+    *   While `low` is less than or equal to `high`:
+        *   Calculate the `mid` index: `mid = floor((low + high) / 2)`.
+        *   Compare the element at `arr[mid]` with the `target` value:
+            *   If `arr[mid]` is equal to `target`, the item is found. Return `mid`.
+            *   If `arr[mid]` is less than `target`, the `target` must be in the right half. Update `low = mid + 1`.
+            *   If `arr[mid]` is greater than `target`, the `target` must be in the left half. Update `high = mid - 1`.
+
+3.  **Termination:** If the loop finishes and the `target` is not found (i.e., `low` becomes greater than `high`), return -1 (or a similar indicator that the item was not found).
+
+Key Characteristics:
+
+*   **Requires Sorted Data:** Binary Search *only* works on sorted data. If the input array is not sorted, the algorithm will not guarantee correct results.
+*   **Time Complexity:** Its time complexity is O(log n), which makes it significantly faster than linear search (O(n)) for large datasets. This logarithmic complexity arises because the search space is halved in each step.
+*   **Space Complexity:** The space complexity is O(1) for the iterative approach, as it only uses a few variables.
+
+How to Implement it (Conceptual Steps):
+
+1.  **Function Signature:** Define a function `binarySearch(arr, target)` that takes a sorted array `arr` and the `target` value as input.
+2.  **Pointers:** Initialize `left = 0` and `right = arr.length - 1`.
+3.  **Loop:** Use a `while` loop with the condition `left <= right`.
+4.  **Midpoint Calculation:** Inside the loop, calculate `mid = Math.floor((left + right) / 2)`.
+5.  **Comparison:** Implement the conditional logic:
+    *   If `arr[mid] === target`, return `mid`.
+    *   If `arr[mid] < target`, set `left = mid + 1`.
+    *   Else (if `arr[mid] > target`), set `right = mid - 1`.
+6.  **Not Found:** If the loop completes, return -1.
+
+Hints:
+
+*   **Integer Overflow:** When calculating `mid`, be mindful of potential integer overflow if `left` and `right` are very large. A safer way to calculate `mid` is `left + floor((right - left) / 2)`.
+*   **Recursive vs. Iterative:** Binary search can be implemented recursively or iteratively. The iterative approach is generally preferred in production code due to avoiding potential stack overflow issues with very large arrays and often having better performance characteristics.
+*   **Variations:** Binary search can be adapted to find the first or last occurrence of an element, or to find the smallest element greater than or equal to a target, etc.

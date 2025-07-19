@@ -1,63 +1,90 @@
+/**
+ * @class HashTable
+ * @description A data structure that maps keys to values using a hash function.
+ * @template K The type of the keys.
+ * @template V The type of the values.
+ */
 export class HashTable<K, V> {
-  private table: {
-    [key: string]: [
-      K,
-      V,
-    ][]
-  }
+  private table: Array<
+    Array<
+      [
+        K,
+        V,
+      ]
+    >
+  >
   private size: number
 
-  constructor(size: number = 100) {
-    this.table = {}
+  constructor(size: number = 127) {
+    this.table = new Array(size)
     this.size = size
   }
 
-  private hash(key: K): string {
-    return (String(key).length % this.size) as unknown as string
+  /**
+   * @description Hashes a key to an index in the table.
+   * @param key The key to hash.
+   * @returns The index in the table.
+   */
+  private hash(key: K): number {
+    const keyStr = String(key)
+    let hash = 0
+    for (let i = 0; i < keyStr.length; i++) {
+      hash = (hash + keyStr.charCodeAt(i) * (i + 1)) % this.size
+    }
+    return hash
   }
 
-  set(key: K, value: V): void {
+  /**
+   * @description Adds a new key-value pair to the table.
+   * @param key The key.
+   * @param value The value.
+   */
+  public set(key: K, value: V): void {
     const index = this.hash(key)
     if (!this.table[index]) {
       this.table[index] = []
     }
-    // Handle collisions (simple chaining)
-    let found = false
-    for (let i = 0; i < this.table[index].length; i++) {
-      const entry = this.table[index][i]
-      if (entry && entry[0] === key) {
-        entry[1] = value
-        found = true
-        break
+
+    for (const pair of this.table[index]) {
+      if (pair[0] === key) {
+        pair[1] = value
+        return
       }
     }
-    if (!found) {
-      this.table[index].push([
-        key,
-        value,
-      ])
-    }
+
+    this.table[index].push([
+      key,
+      value,
+    ])
   }
 
-  get(key: K): V | undefined {
+  /**
+   * @description Retrieves the value associated with a key.
+   * @param key The key to retrieve.
+   * @returns The value, or `undefined` if the key is not found.
+   */
+  public get(key: K): V | undefined {
     const index = this.hash(key)
     if (this.table[index]) {
-      for (let i = 0; i < this.table[index].length; i++) {
-        const entry = this.table[index][i]
-        if (entry && entry[0] === key) {
-          return entry[1]
+      for (const pair of this.table[index]) {
+        if (pair[0] === key) {
+          return pair[1]
         }
       }
     }
     return undefined
   }
 
-  delete(key: K): boolean {
+  /**
+   * @description Deletes a key-value pair from the table.
+   * @param key The key to delete.
+   * @returns `true` if the pair was deleted, `false` otherwise.
+   */
+  public delete(key: K): boolean {
     const index = this.hash(key)
     if (this.table[index]) {
       for (let i = 0; i < this.table[index].length; i++) {
-        const entry = this.table[index][i]
-        if (entry && entry[0] === key) {
+        if (this.table[index][i][0] === key) {
           this.table[index].splice(i, 1)
           return true
         }
@@ -66,11 +93,12 @@ export class HashTable<K, V> {
     return false
   }
 
-  has(key: K): boolean {
+  /**
+   * @description Checks if a key exists in the table.
+   * @param key The key to check.
+   * @returns `true` if the key exists, `false` otherwise.
+   */
+  public has(key: K): boolean {
     return this.get(key) !== undefined
-  }
-
-  clear(): void {
-    this.table = {}
   }
 }

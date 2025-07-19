@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { binarySearch } from "../../src/questions/algorithms/binary-search.solution" // Assuming binary-search.solution.ts exports a binarySearch function
+import binarySearch from "../../src/questions/algorithms/binary-search.solution" // Assuming binary-search.solution.ts exports a binarySearch function
 
 test("binarySearch should find an element in a sorted array", () => {
   const arr = [

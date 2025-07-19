@@ -1,105 +1,125 @@
+/**
+ * @class MinHeap
+ * @description A binary heap data structure that maintains the min-heap property.
+ */
 export class MinHeap {
-  private heap: number[] = []
+  private heap: number[]
 
-  getParentIndex(i: number): number {
-    return Math.floor((i - 1) / 2)
+  constructor() {
+    this.heap = []
   }
 
-  getLeftChildIndex(i: number): number {
-    return 2 * i + 1
+  /**
+   * @returns The number of elements in the heap.
+   */
+  public get size(): number {
+    return this.heap.length
   }
 
-  getRightChildIndex(i: number): number {
-    return 2 * i + 2
+  /**
+   * @returns `true` if the heap is empty, `false` otherwise.
+   */
+  public isEmpty(): boolean {
+    return this.size === 0
   }
 
-  hasParent(i: number): boolean {
-    return this.getParentIndex(i) >= 0
-  }
-
-  hasLeftChild(i: number): boolean {
-    return this.getLeftChildIndex(i) < this.heap.length
-  }
-
-  hasRightChild(i: number): boolean {
-    return this.getRightChildIndex(i) < this.heap.length
-  }
-
-  getParent(i: number): number | undefined {
-    return this.heap[this.getParentIndex(i)]
-  }
-
-  getLeftChild(i: number): number | undefined {
-    return this.heap[this.getLeftChildIndex(i)]
-  }
-
-  getRightChild(i: number): number | undefined {
-    return this.heap[this.getRightChildIndex(i)]
-  }
-
-  swap(i: number, j: number): void {
-    ;[this.heap[i]!, this.heap[j]!] = [
-      this.heap[j]!,
-      this.heap[i]!,
-    ]
-  }
-
-  peek(): number | undefined {
-    if (this.heap.length === 0) {
-      return undefined
-    }
-    return this.heap[0]
-  }
-
-  insert(item: number): void {
+  /**
+   * @description Adds a new element to the heap.
+   * @param item The element to add.
+   */
+  public insert(item: number): void {
     this.heap.push(item)
     this.heapifyUp()
   }
 
-  extractMin(): number | undefined {
-    if (this.heap.length === 0) {
-      return undefined
+  /**
+   * @description Removes and returns the minimum element from the heap.
+   * @returns The minimum element, or `null` if the heap is empty.
+   */
+  public extractMin(): number | null {
+    if (this.isEmpty()) {
+      return null
     }
-    if (this.heap.length === 1) {
+    if (this.size === 1) {
       return this.heap.pop()!
     }
-
-    const item = this.heap[0]
+    const min = this.heap[0]
     this.heap[0] = this.heap.pop()!
     this.heapifyDown()
-    return item
+    return min
   }
 
-  heapifyUp(): void {
-    let index = this.heap.length - 1
-    while (this.hasParent(index) && this.getParent(index)! > this.heap[index]!) {
+  /**
+   * @description Restores the min-heap property by moving the last element up.
+   */
+  private heapifyUp(): void {
+    let index = this.size - 1
+    while (this.hasParent(index) && this.parent(index)! > this.heap[index]) {
       this.swap(this.getParentIndex(index), index)
       index = this.getParentIndex(index)
     }
   }
 
-  heapifyDown(): void {
+  /**
+   * @description Restores the min-heap property by moving the root element down.
+   */
+  private heapifyDown(): void {
     let index = 0
     while (this.hasLeftChild(index)) {
       let smallerChildIndex = this.getLeftChildIndex(index)
-      if (this.hasRightChild(index) && this.getRightChild(index)! < this.getLeftChild(index)!) {
+      if (this.hasRightChild(index) && this.rightChild(index)! < this.leftChild(index)!) {
         smallerChildIndex = this.getRightChildIndex(index)
       }
 
-      if (this.heap[index]! < this.heap[smallerChildIndex]!) {
+      if (this.heap[index] < this.heap[smallerChildIndex]) {
         break
-      } else {
-        this.swap(index, smallerChildIndex)
       }
+
+      this.swap(index, smallerChildIndex)
       index = smallerChildIndex
     }
   }
 
-  size(): number {
-    return this.heap.length
+  private getParentIndex(childIndex: number): number {
+    return Math.floor((childIndex - 1) / 2)
   }
 
-  isEmpty(): boolean {
-    return this.heap.length === 0
+  private getLeftChildIndex(parentIndex: number): number {
+    return 2 * parentIndex + 1
+  }
+
+  private getRightChildIndex(parentIndex: number): number {
+    return 2 * parentIndex + 2
+  }
+
+  private hasParent(index: number): boolean {
+    return this.getParentIndex(index) >= 0
+  }
+
+  private hasLeftChild(index: number): boolean {
+    return this.getLeftChildIndex(index) < this.size
+  }
+
+  private hasRightChild(index: number): boolean {
+    return this.getRightChildIndex(index) < this.size
+  }
+
+  private parent(index: number): number | undefined {
+    return this.heap[this.getParentIndex(index)]
+  }
+
+  private leftChild(index: number): number | undefined {
+    return this.heap[this.getLeftChildIndex(index)]
+  }
+
+  private rightChild(index: number): number | undefined {
+    return this.heap[this.getRightChildIndex(index)]
+  }
+
+  private swap(i: number, j: number): void {
+    ;[this.heap[i], this.heap[j]] = [
+      this.heap[j],
+      this.heap[i],
+    ]
   }
 }

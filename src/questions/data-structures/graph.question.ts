@@ -6,7 +6,7 @@ const graphQuestion: Question = {
   id: "j2k3l4m5-n6o7-8901-2345-67890abcdef",
   level: "Medium",
   solution: await getFileContent(createFilePath(DATA_STRUCTURES_DIR, "graph.solution.ts")),
-  synopsis: await getFileContent(createFilePath(DATA_STRUCTURES_DIR, "graph.synopsis.md")),
+  synopsis: await getFileContent(createFilePath(DATA_STRUCTURES_DIR, "graph.synopsis.txt")),
   title: "Graph (Adjacency List)",
 }
 

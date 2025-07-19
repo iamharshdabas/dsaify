@@ -1,0 +1,51 @@
+Quick Sort
+
+What is Quick Sort?
+
+Quick Sort is an efficient, comparison-based sorting algorithm that also follows the divide-and-conquer paradigm. It works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively. This process is repeated until the entire array is sorted.
+
+How it Works:
+
+Quick Sort involves three main steps:
+
+1.  **Choose a Pivot:** Select an element from the array to be the pivot. The choice of pivot can significantly impact performance. Common strategies include choosing the first, last, middle, or a random element.
+
+2.  **Partition:** Rearrange the array such that all elements less than the pivot come before it, and all elements greater than the pivot come after it. Elements equal to the pivot can go on either side. After partitioning, the pivot is in its final sorted position.
+
+3.  **Recurse:** Recursively apply the above two steps to the sub-array of elements with smaller values and separately to the sub-array of elements with greater values.
+
+This process continues until the sub-arrays are small enough (e.g., contain 0 or 1 element), at which point they are considered sorted.
+
+Key Characteristics:
+
+*   **Divide and Conquer:** Like Merge Sort, it's a divide-and-conquer algorithm.
+*   **In-Place (typically):** Quick Sort is typically implemented as an in-place sorting algorithm, meaning it sorts the array by modifying the original array directly, requiring only a small amount of auxiliary space (O(log n) on average for the recursion stack).
+*   **Time Complexity:**
+    *   **Average Case:** O(n log n). This is generally very fast in practice.
+    *   **Worst Case:** O(n^2). This occurs when the pivot selection consistently leads to highly unbalanced partitions (e.g., always picking the smallest or largest element as the pivot in an already sorted array). Randomizing the pivot choice can mitigate this.
+*   **Unstable Sort:** Quick Sort is generally an unstable sorting algorithm, meaning that the relative order of equal elements might not be preserved.
+
+How to Implement it (Conceptual Steps - In-Place):
+
+1.  **`quickSort(arr, low, high)` Function:**
+    *   **Base Case:** If `low >= high`, the sub-array has 0 or 1 element and is already sorted, so return.
+    *   **Partition:** Call a `partition(arr, low, high)` helper function. This function will select a pivot, rearrange elements, and return the `pivotIndex` (the final sorted position of the pivot).
+    *   **Recurse:** Recursively call `quickSort(arr, low, pivotIndex - 1)` for the left sub-array.
+    *   Recursively call `quickSort(arr, pivotIndex + 1, high)` for the right sub-array.
+
+2.  **`partition(arr, low, high)` Function (Helper):**
+    *   **Choose Pivot:** Select a pivot (e.g., `arr[high]`).
+    *   **Initialize `i`:** Set `i = low - 1` (this pointer will track the boundary of elements smaller than the pivot).
+    *   **Iterate `j`:** Loop `j` from `low` to `high - 1`:
+        *   If `arr[j]` is less than or equal to the `pivot`:
+            *   Increment `i`.
+            *   Swap `arr[i]` and `arr[j]`.
+    *   **Place Pivot:** Swap `arr[i + 1]` and `arr[high]` (the pivot).
+    *   **Return Pivot Index:** Return `i + 1`.
+
+Hints:
+
+*   **Pivot Selection:** The choice of pivot strategy is important. A common practice is to pick a random pivot or use the median-of-three approach to reduce the chance of worst-case scenarios.
+*   **In-Place Swapping:** The `partition` function relies on efficient in-place swapping of elements.
+*   **Recursion Depth:** For very large arrays, deep recursion can lead to stack overflow. In such cases, an iterative Quick Sort or a hybrid approach (e.g., switching to Insertion Sort for small sub-arrays) might be considered.
+*   **Applications:** Quick Sort is widely used for general-purpose sorting due to its excellent average-case performance and in-place nature.

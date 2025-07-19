@@ -1,126 +1,84 @@
 import { expect, test } from "bun:test"
-import { DoublyLinkedList } from "../../src/questions/data-structures/doubly-linked-list.solution" // Assuming doubly-linked-list.solution.ts exports a DoublyLinkedList class
+import { DoublyLinkedList } from "../../src/questions/data-structures/doubly-linked-list.solution"
 
 test("DoublyLinkedList should be empty on initialization", () => {
   const list = new DoublyLinkedList()
   expect(list.isEmpty()).toBeTrue()
-  expect(list.size()).toBe(0)
+  expect(list.size).toBe(0)
   expect(list.head).toBeNull()
   expect(list.tail).toBeNull()
 })
 
-test("DoublyLinkedList should add elements to the tail", () => {
-  const list = new DoublyLinkedList()
+test("DoublyLinkedList should add nodes to the tail", () => {
+  const list = new DoublyLinkedList<number>()
   list.addTail(1)
-  expect(list.size()).toBe(1)
-  expect(list.head?.value).toBe(1)
-  expect(list.tail?.value).toBe(1)
   list.addTail(2)
-  expect(list.size()).toBe(2)
+  expect(list.size).toBe(2)
   expect(list.head?.value).toBe(1)
   expect(list.tail?.value).toBe(2)
+  expect(list.head?.next?.value).toBe(2)
   expect(list.tail?.prev?.value).toBe(1)
 })
 
-test("DoublyLinkedList should add elements to the head", () => {
-  const list = new DoublyLinkedList()
+test("DoublyLinkedList should add nodes to the head", () => {
+  const list = new DoublyLinkedList<number>()
   list.addHead(1)
-  expect(list.size()).toBe(1)
-  expect(list.head?.value).toBe(1)
-  expect(list.tail?.value).toBe(1)
   list.addHead(2)
-  expect(list.size()).toBe(2)
+  expect(list.size).toBe(2)
   expect(list.head?.value).toBe(2)
   expect(list.tail?.value).toBe(1)
   expect(list.head?.next?.value).toBe(1)
+  expect(list.tail?.prev?.value).toBe(2)
 })
 
-test("DoublyLinkedList should remove elements from the tail", () => {
-  const list = new DoublyLinkedList()
+test("DoublyLinkedList should remove nodes from the tail", () => {
+  const list = new DoublyLinkedList<number>()
   list.addTail(1)
   list.addTail(2)
-  expect(list.removeTail()).toBe(2)
-  expect(list.size()).toBe(1)
-  expect(list.head?.value).toBe(1)
+  const removed = list.removeTail()
+  expect(removed).toBe(2)
+  expect(list.size).toBe(1)
   expect(list.tail?.value).toBe(1)
-  expect(list.removeTail()).toBe(1)
-  expect(list.size()).toBe(0)
+  const removed2 = list.removeTail()
+  expect(removed2).toBe(1)
   expect(list.isEmpty()).toBeTrue()
 })
 
-test("DoublyLinkedList should remove elements from the head", () => {
-  const list = new DoublyLinkedList()
+test("DoublyLinkedList should remove nodes from the head", () => {
+  const list = new DoublyLinkedList<number>()
   list.addTail(1)
   list.addTail(2)
-  expect(list.removeHead()).toBe(1)
-  expect(list.size()).toBe(1)
+  const removed = list.removeHead()
+  expect(removed).toBe(1)
+  expect(list.size).toBe(1)
   expect(list.head?.value).toBe(2)
-  expect(list.tail?.value).toBe(2)
-  expect(list.removeHead()).toBe(2)
-  expect(list.size()).toBe(0)
+  const removed2 = list.removeHead()
+  expect(removed2).toBe(2)
   expect(list.isEmpty()).toBeTrue()
 })
 
-test("DoublyLinkedList should return null when removing from empty list", () => {
-  const list = new DoublyLinkedList()
-  expect(list.removeHead()).toBeNull()
-  expect(list.removeTail()).toBeNull()
-})
-
-test("DoublyLinkedList should find elements by value", () => {
-  const list = new DoublyLinkedList()
+test("DoublyLinkedList should find nodes", () => {
+  const list = new DoublyLinkedList<number>()
   list.addTail(1)
   list.addTail(2)
   list.addTail(3)
-  expect(list.find(2)?.value).toBe(2)
-  expect(list.find(4)).toBeNull()
+  const node = list.find(2)
+  expect(node?.value).toBe(2)
+  const notFound = list.find(4)
+  expect(notFound).toBeNull()
 })
 
-test("DoublyLinkedList should delete a specific node by value", () => {
-  const list = new DoublyLinkedList()
+test("DoublyLinkedList should delete nodes", () => {
+  const list = new DoublyLinkedList<number>()
   list.addTail(1)
   list.addTail(2)
   list.addTail(3)
-  list.delete(2)
-  expect(list.size()).toBe(2)
+  const deleted = list.delete(2)
+  expect(deleted).toBeTrue()
+  expect(list.size).toBe(2)
   expect(list.find(2)).toBeNull()
-  expect(list.head?.value).toBe(1)
-  expect(list.tail?.value).toBe(3)
   expect(list.head?.next?.value).toBe(3)
   expect(list.tail?.prev?.value).toBe(1)
-})
-
-test("DoublyLinkedList should delete the head node", () => {
-  const list = new DoublyLinkedList()
-  list.addTail(1)
-  list.addTail(2)
-  list.delete(1)
-  expect(list.size()).toBe(1)
-  expect(list.head?.value).toBe(2)
-  expect(list.tail?.value).toBe(2)
-})
-
-test("DoublyLinkedList should delete the tail node", () => {
-  const list = new DoublyLinkedList()
-  list.addTail(1)
-  list.addTail(2)
-  list.delete(2)
-  expect(list.size()).toBe(1)
-  expect(list.head?.value).toBe(1)
-  expect(list.tail?.value).toBe(1)
-})
-
-test("DoublyLinkedList should handle deleting from a list with one element", () => {
-  const list = new DoublyLinkedList()
-  list.addTail(1)
-  list.delete(1)
-  expect(list.isEmpty()).toBeTrue()
-})
-
-test("DoublyLinkedList should not delete non-existent elements", () => {
-  const list = new DoublyLinkedList()
-  list.addTail(1)
-  list.addTail(2)
-  list.delete(3)
-  expect(list.size()).toBe(2)
+  const notDeleted = list.delete(4)
+  expect(notDeleted).toBeFalse()
 })

@@ -1,24 +1,33 @@
-import type { Graph } from "../data-structures/graph.solution"
-import { Queue } from "../data-structures/queue.solution"
-
-export function bfs<T>(graph: Graph<T>, startNode: T): T[] {
-  const visited: Set<T> = new Set()
-  const queue = new Queue<T>()
+/**
+ * @function bfs
+ * @description Performs a Breadth-First Search (BFS) on a graph.
+ * @param graph The graph represented as an adjacency list (Map where keys are nodes and values are arrays of their neighbors).
+ * @param startNode The node from which to start the BFS traversal.
+ * @returns An array of nodes in the order they were visited during the BFS traversal.
+ * @template T The type of the nodes in the graph.
+ */
+export function bfs<T>(graph: Map<T, T[]>, startNode: T): T[] {
+  const visited = new Set<T>()
+  const queue: T[] = []
   const result: T[] = []
 
-  visited.add(startNode)
-  queue.enqueue(startNode)
+  if (!graph.has(startNode)) {
+    return result
+  }
 
-  while (!queue.isEmpty()) {
-    const currentNode = queue.dequeue()!
+  visited.add(startNode)
+  queue.push(startNode)
+
+  while (queue.length > 0) {
+    const currentNode = queue.shift()! // Dequeue the first node
     result.push(currentNode)
 
-    const neighbors = graph.getNeighbors(currentNode)
+    const neighbors = graph.get(currentNode)
     if (neighbors) {
       for (const neighbor of neighbors) {
         if (!visited.has(neighbor)) {
           visited.add(neighbor)
-          queue.enqueue(neighbor)
+          queue.push(neighbor)
         }
       }
     }

@@ -1,1 +1,0 @@
-A Queue is a linear data structure that follows the First-In, First-Out (FIFO) principle. Elements are added to the rear (enqueue) and removed from the front (dequeue). It is commonly used in scenarios where the order of processing is important, such as managing tasks, handling requests, or implementing breadth-first search (BFS) algorithms.

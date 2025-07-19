@@ -47,4 +47,34 @@ export class Trie {
     }
     return true
   }
+
+  delete(word: string): boolean {
+    const deleteRecursive = (current: TrieNode, word: string, index: number): boolean => {
+      if (index === word.length) {
+        if (!current.isEndOfWord) {
+          return false // Word not found
+        }
+        current.isEndOfWord = false
+        return current.children.size === 0
+      }
+
+      const char = word[index]!
+      const child = current.children.get(char)
+
+      if (!child) {
+        return false // Word not found
+      }
+
+      const shouldDeleteChild = deleteRecursive(child, word, index + 1)
+
+      if (shouldDeleteChild) {
+        current.children.delete(char)
+        return current.children.size === 0 && !current.isEndOfWord
+      }
+
+      return false
+    }
+
+    return deleteRecursive(this.root, word, 0)
+  }
 }

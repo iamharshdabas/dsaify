@@ -1,0 +1,73 @@
+Trie (Prefix Tree)
+
+What is a Trie?
+
+A Trie, also known as a prefix tree, is a tree-like data structure used to store a dynamic set or associative array where the keys are usually strings. Unlike a binary search tree, no node in the trie stores the key associated with that node; instead, its position in the tree defines the key. All the descendants of a node have a common prefix of the string associated with that node.
+
+Tries are highly efficient for operations involving prefixes, such as searching for words with a common prefix, autocomplete suggestions, and spell checking.
+
+How it Works:
+
+Each node in a trie typically represents a character in a string. The root node usually represents an empty string. Each path from the root to a node represents a prefix of a string. If a node marks the end of a valid word, it often has a flag (e.g., `isEndOfWord`) set to true.
+
+*   **Nodes:** Each node in a trie can have multiple children, typically one for each possible character in the alphabet (e.g., 26 for lowercase English letters). A `Map` or an array can be used to store these children.
+*   **Insertion (`insert`):** To insert a word, you traverse the trie character by character. If a character's path doesn't exist, you create a new node for it. Once all characters of the word have been processed, you mark the final node as the end of a word.
+*   **Search (`search`):** To search for a word, you traverse the trie character by character, following the path defined by the word. If at any point a character's path doesn't exist, the word is not in the trie. If you reach the end of the word and the final node is marked as `isEndOfWord`, the word exists.
+*   **Starts With (`startsWith`):** Similar to search, but you only need to check if the prefix path exists in the trie. You don't need to check the `isEndOfWord` flag.
+*   **Deletion (`delete`):** Deleting a word from a trie is more complex. It involves traversing the trie to find the word and unmarking its `isEndOfWord` flag. Then, you might need to remove nodes that are no longer part of any other word or prefix, backtracking up the tree.
+
+How to Implement it:
+
+1.  **`TrieNode` Class:**
+    *   `children`: A `Map<string, TrieNode>` to store child nodes, where the key is the character and the value is the `TrieNode` for that character.
+    *   `isEndOfWord`: A boolean flag, `true` if this node marks the end of a complete word.
+
+2.  **`Trie` Class:**
+    *   `root`: A `TrieNode` representing the root of the trie.
+
+3.  **`insert(word)` Method:**
+    *   Start `current` at `this.root`.
+    *   For each `char` in `word`:
+        *   If `current.children` does not have `char`, create a new `TrieNode` and add it to `current.children` with `char` as the key.
+        *   Move `current` to `current.children.get(char)`.
+    *   Set `current.isEndOfWord = true`.
+
+4.  **`search(word)` Method:**
+    *   Start `current` at `this.root`.
+    *   For each `char` in `word`:
+        *   If `current.children` does not have `char`, return `false`.
+        *   Move `current` to `current.children.get(char)`.
+    *   Return `current.isEndOfWord`.
+
+5.  **`startsWith(prefix)` Method:**
+    *   Start `current` at `this.root`.
+    *   For each `char` in `prefix`:
+        *   If `current.children` does not have `char`, return `false`.
+        *   Move `current` to `current.children.get(char)`.
+    *   Return `true`.
+
+6.  **`delete(word)` Method (Recursive Approach):**
+    *   Implement a recursive helper function `deleteRecursive(current, word, index)`.
+    *   **Base Case:** If `index === word.length`:
+        *   If `current.isEndOfWord` is `false`, return `false` (word not found).
+        *   Set `current.isEndOfWord = false`.
+        *   Return `true` if `current.children.size === 0` (node can be deleted).
+    *   **Recursive Step:**
+        *   Get `char = word[index]` and `child = current.children.get(char)`.
+        *   If `child` is `null`, return `false` (word not found).
+        *   Call `shouldDeleteChild = deleteRecursive(child, word, index + 1)`.
+        *   If `shouldDeleteChild` is `true`:
+            *   Delete `char` from `current.children`.
+            *   Return `true` if `current.children.size === 0` AND `current.isEndOfWord` is `false`.
+    *   Return `false`.
+    *   The main `delete` method calls `deleteRecursive(this.root, word, 0)`.
+
+Hints:
+
+*   **Space-Time Tradeoff:** Tries can consume a lot of memory, especially for large alphabets or long words, but they offer very fast search and insertion times (proportional to the length of the word, not the number of words).
+*   **Efficiency:** Operations like `insert`, `search`, and `startsWith` have a time complexity of O(L), where L is the length of the word/prefix, making them very efficient.
+*   **Applications:** Tries are commonly used in:
+    *   Autocomplete and predictive text systems.
+    *   Spell checkers.
+    *   IP routing (longest prefix matching).
+    *   Dictionary implementations.

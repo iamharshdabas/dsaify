@@ -1,0 +1,56 @@
+Breadth-First Search (BFS)
+
+What is Breadth-First Search (BFS)?
+
+Breadth-First Search (BFS) is a graph traversal algorithm that systematically explores all the vertices of a graph or tree level by level. It starts at a specified source vertex and explores all of its immediate neighbors first, then moves to the next level of neighbors (neighbors of neighbors), and so on. This process continues until all reachable vertices have been visited.
+
+How it Works:
+
+BFS uses a queue data structure to manage the order of vertices to be visited. The general steps are as follows:
+
+1.  **Initialization:**
+    *   Create an empty queue and add the starting vertex to it.
+    *   Create a set or array to keep track of visited vertices to avoid cycles and redundant processing. Mark the starting vertex as visited.
+    *   Create a list to store the order of visited vertices (the result of the BFS).
+
+2.  **Traversal:**
+    *   While the queue is not empty:
+        *   Dequeue a vertex from the front of the queue. This is the `current` vertex.
+        *   Add the `current` vertex to the result list.
+        *   For each unvisited neighbor of the `current` vertex:
+            *   Mark the neighbor as visited.
+            *   Enqueue the neighbor.
+
+3.  **Termination:** The algorithm terminates when the queue becomes empty, indicating that all reachable vertices have been visited.
+
+Key Characteristics:
+
+*   **Level-by-Level Exploration:** BFS explores all nodes at the current depth level before moving on to nodes at the next depth level.
+*   **Shortest Path in Unweighted Graphs:** BFS is guaranteed to find the shortest path (in terms of number of edges) from the starting node to any other reachable node in an unweighted graph.
+*   **Data Structure:** It primarily uses a queue (FIFO - First-In, First-Out) to manage the order of exploration.
+
+How to Implement it (Conceptual Steps):
+
+1.  **Function Signature:** Define a function `bfs(graph, startNode)` that takes the graph (e.g., an adjacency list) and the starting node as input.
+2.  **Visited Set:** Initialize an empty `Set` called `visited` to keep track of nodes that have already been processed.
+3.  **Queue:** Initialize an empty `Queue` and `enqueue` the `startNode`. Add `startNode` to the `visited` set.
+4.  **Result Array:** Initialize an empty array `result` to store the order of visited nodes.
+5.  **Loop:** Start a `while` loop that continues as long as the queue is not empty.
+6.  **Dequeue and Process:** Inside the loop, `dequeue` a `currentNode` from the queue. Add `currentNode` to the `result` array.
+7.  **Explore Neighbors:** Get all neighbors of the `currentNode` from the `graph`. Iterate through these neighbors.
+8.  **Visit Unvisited Neighbors:** For each `neighbor`, if it has not been `visited`:
+    *   Add the `neighbor` to the `visited` set.
+    *   `enqueue` the `neighbor` into the queue.
+9.  **Return Result:** After the loop finishes, return the `result` array.
+
+Hints:
+
+*   **Graph Representation:** BFS can be applied to graphs represented using adjacency lists (more common and efficient for sparse graphs) or adjacency matrices. The provided solution uses a `Map` to represent an adjacency list.
+*   **Avoiding Cycles:** The `visited` set is crucial to prevent infinite loops in graphs that contain cycles.
+*   **Applications:** BFS is used in various algorithms and applications, including:
+    *   Finding the shortest path in unweighted graphs.
+    *   Web crawlers (exploring links level by level).
+    *   Social networking (finding friends of friends).
+    *   Garbage collection (marking reachable objects).
+    *   Network broadcasting.
+    *   Finding connected components in a graph.

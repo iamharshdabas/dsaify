@@ -1,0 +1,59 @@
+Binary Search Tree (BST)
+
+What is a Binary Search Tree (BST)?
+
+A Binary Search Tree (BST) is a node-based binary tree data structure that has the following properties:
+
+1.  The left subtree of a node contains only nodes with values lesser than the node's value.
+2.  The right subtree of a node contains only nodes with values greater than the node's value.
+3.  The left and right subtrees must also be binary search trees.
+4.  There must be no duplicate nodes.
+
+This ordering property allows for efficient searching, insertion, and deletion of elements.
+
+How it Works:
+
+Each node in a BST typically contains:
+*   A `value` (or key).
+*   A `left` pointer to the left child node.
+*   A `right` pointer to the right child node.
+
+The tree itself maintains a `root` pointer to the topmost node.
+
+*   **Insertion:** To insert a new value, you start at the root and traverse down the tree. If the new value is less than the current node's value, you go left; otherwise, you go right. You continue until you find an empty spot (a `null` child pointer), where you insert the new node.
+*   **Searching (Finding):** To find a value, you start at the root and compare the target value with the current node's value. If they match, you've found it. If the target is smaller, you go left; if larger, you go right. You continue until you find the value or reach a `null` pointer (meaning the value is not in the tree).
+*   **Deletion:** Deleting a node from a BST is more complex as it needs to maintain the BST properties. There are three cases:
+    *   **Node has no children:** Simply remove the node.
+    *   **Node has one child:** Replace the node with its child.
+    *   **Node has two children:** Find the in-order successor (smallest node in the right subtree) or in-order predecessor (largest node in the left subtree). Replace the node's value with the successor/predecessor's value, and then delete the successor/predecessor node (which will fall into one of the first two cases).
+*   **Traversal:** BSTs can be traversed in various ways:
+    *   **In-order Traversal:** Visits nodes in ascending order (Left -> Root -> Right).
+    *   **Pre-order Traversal:** Visits the root first, then left, then right (Root -> Left -> Right).
+    *   **Post-order Traversal:** Visits left, then right, then root (Left -> Right -> Root).
+
+How to Implement it:
+
+1.  **`TreeNode` Class:** Define a `TreeNode` class with `value`, `left`, and `right` properties.
+2.  **`BinarySearchTree` Class:** Define a `BinarySearchTree` class with a `root` property.
+3.  **`insert(value)` Method:**
+    *   Create a new `TreeNode`.
+    *   If the tree is empty, set the new node as the `root`.
+    *   Otherwise, traverse the tree to find the correct insertion point, comparing `value` with current node's `value` to decide whether to go left or right.
+4.  **`find(value)` Method:**
+    *   Start at the `root`.
+    *   Traverse the tree, comparing `value` with current node's `value`.
+    *   Return `true` if found, `false` otherwise.
+5.  **`delete(value)` Method:**
+    *   Implement a recursive helper function `_deleteNode(node, value)` to handle the three deletion cases.
+    *   The main `delete` method will call this helper starting from the `root`.
+6.  **Traversal Methods (`inOrderTraversal`, `preOrderTraversal`, `postOrderTraversal`):**
+    *   Implement recursive helper functions for each traversal type.
+    *   These methods typically take a callback function to process each node's value.
+
+Hints:
+
+*   **Recursion:** Many BST operations (especially deletion and traversals) are elegantly implemented using recursion.
+*   **Edge Cases:** Pay attention to edge cases like an empty tree, inserting the first node, deleting the root, or deleting a leaf node.
+*   **In-order Successor/Predecessor:** For deleting nodes with two children, correctly finding and handling the in-order successor (or predecessor) is crucial.
+*   **Type Constraints:** For a Binary Search Tree, the values stored must be comparable (e.g., numbers, strings). Ensure your type `T` supports comparison operations (`<`, `>`).
+*   **Applications:** BSTs are fundamental for implementing sets, maps, and are used in various algorithms requiring ordered data, such as sorting and searching.

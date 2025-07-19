@@ -1,7 +1,9 @@
 #!/usr/bin/env bun
 
 import { Command } from "commander"
+import type { Question } from "./types"
 import { getHighlightedChar, tokenizeCode } from "./utils/highlighter"
+import { ALGORITHMS_DIR, DATA_STRUCTURES_DIR, getRandomQuestion } from "./utils/question"
 import {
   rlClearScreenDown,
   rlCursorTo,
@@ -18,28 +20,14 @@ program.name("Dsaify").version("0.0.0").description("A simple typing speed test 
 program
   .command("start")
   .description("Starts the typing test.")
-  .action(async () => {
-    const hintText = `import chalk from "chalk"
+  .argument("[topic]", "topic to practice (e.g., algorithms, data-structures)")
+  .action(async (topic) => {
+    let question: Question
+    if (topic === "data-structures") question = await getRandomQuestion(DATA_STRUCTURES_DIR)
+    else if (topic === "algorithms") question = await getRandomQuestion(ALGORITHMS_DIR)
+    else question = await getRandomQuestion()
 
-export const getHintedText = (hintText: string, userText: string) => {
-  let outputText = ""
-
-  for (let i = 0; i < hintText.length; i++) {
-    if (i < userText.length) {
-      if (userText[i] === hintText[i]) {
-        outputText += chalk.green(hintText[i])
-      } else {
-        outputText += chalk.red(hintText[i])
-      }
-    } else {
-      outputText += chalk.gray(hintText[i])
-    }
-  }
-
-  return outputText
-}`
-
-    const highlightedTokens = tokenizeCode(hintText)
+    const highlightedTokens = tokenizeCode(question?.solution)
     let userText = ""
 
     rlKeypressEvents()

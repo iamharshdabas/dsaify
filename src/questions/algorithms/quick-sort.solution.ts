@@ -8,22 +8,22 @@ function quickSort<T extends number | string>(arr: T[], low: number = 0, high: n
 }
 
 function partition<T extends number | string>(arr: T[], low: number, high: number): number {
-  const pivot = arr[high]
+  const pivot = arr[high]!
   let i = low - 1
 
   for (let j = low; j < high; j++) {
-    if (arr[j] <= pivot) {
+    if (arr[j]! <= pivot) {
       i++
-      ;[arr[i], arr[j]] = [
-        arr[j],
-        arr[i],
+      ;[arr[i]!, arr[j]!] = [
+        arr[j]!,
+        arr[i]!,
       ] // Swap
     }
   }
 
-  ;[arr[i + 1], arr[high]] = [
-    arr[high],
-    arr[i + 1],
+  ;[arr[i + 1]!, arr[high]!] = [
+    arr[high]!,
+    arr[i + 1]!,
   ] // Swap pivot to its correct position
   return i + 1
 }

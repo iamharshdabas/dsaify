@@ -37,10 +37,8 @@ export class Stack<T> {
    * @returns The element at the top of the stack, or `null` if the stack is empty.
    */
   public pop(): T | null {
-    if (this.isEmpty()) {
-      return null
-    }
-    return this.items.pop()!
+    const item = this.items.pop()
+    return (item === undefined ? null : item) as T | null
   }
 
   /**
@@ -51,7 +49,7 @@ export class Stack<T> {
     if (this.isEmpty()) {
       return null
     }
-    return this.items[this.items.length - 1]
+    return this.items[this.items.length - 1]!
   }
 
   /**

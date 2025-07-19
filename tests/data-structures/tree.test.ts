@@ -112,7 +112,7 @@ test("BinarySearchTree should perform in-order traversal", () => {
   bst.insert(3)
   bst.insert(7)
   const result: number[] = []
-  bst.inOrderTraversal((value) => result.push(value))
+  bst.inOrderTraversal((value) => result.push(value as number))
   expect(result).toEqual([
     3,
     5,
@@ -130,7 +130,7 @@ test("BinarySearchTree should perform pre-order traversal", () => {
   bst.insert(3)
   bst.insert(7)
   const result: number[] = []
-  bst.preOrderTraversal((value) => result.push(value))
+  bst.preOrderTraversal((value) => result.push(value as number))
   expect(result).toEqual([
     10,
     5,
@@ -148,7 +148,7 @@ test("BinarySearchTree should perform post-order traversal", () => {
   bst.insert(3)
   bst.insert(7)
   const result: number[] = []
-  bst.postOrderTraversal((value) => result.push(value))
+  bst.postOrderTraversal((value) => result.push(value as number))
   expect(result).toEqual([
     3,
     7,

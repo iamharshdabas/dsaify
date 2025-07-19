@@ -37,10 +37,8 @@ export class Queue<T> {
    * @returns The element at the front of the queue, or `null` if the queue is empty.
    */
   public dequeue(): T | null {
-    if (this.isEmpty()) {
-      return null
-    }
-    return this.items.shift()!
+    const item = this.items.shift()
+    return (item === undefined ? null : item) as T | null
   }
 
   /**
@@ -51,7 +49,7 @@ export class Queue<T> {
     if (this.isEmpty()) {
       return null
     }
-    return this.items[0]
+    return this.items[0]!
   }
 
   /**

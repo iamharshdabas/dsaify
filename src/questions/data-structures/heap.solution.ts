@@ -41,10 +41,14 @@ export class MinHeap {
       return null
     }
     if (this.size === 1) {
-      return this.heap.pop()!
+      const val = this.heap.pop()
+      return val === undefined ? null : val
     }
-    const min = this.heap[0]
-    this.heap[0] = this.heap.pop()!
+    const min = this.heap[0] as number // Assert as number, as heap is not empty
+    const lastElement = this.heap.pop()
+    if (lastElement !== undefined) {
+      this.heap[0] = lastElement
+    }
     this.heapifyDown()
     return min
   }
@@ -54,7 +58,7 @@ export class MinHeap {
    */
   private heapifyUp(): void {
     let index = this.size - 1
-    while (this.hasParent(index) && this.parent(index)! > this.heap[index]) {
+    while (this.hasParent(index) && (this.parent(index) as number) > this.heap[index]!) {
       this.swap(this.getParentIndex(index), index)
       index = this.getParentIndex(index)
     }
@@ -67,11 +71,11 @@ export class MinHeap {
     let index = 0
     while (this.hasLeftChild(index)) {
       let smallerChildIndex = this.getLeftChildIndex(index)
-      if (this.hasRightChild(index) && this.rightChild(index)! < this.leftChild(index)!) {
+      if (this.hasRightChild(index) && (this.rightChild(index) as number) < (this.leftChild(index) as number)) {
         smallerChildIndex = this.getRightChildIndex(index)
       }
 
-      if (this.heap[index] < this.heap[smallerChildIndex]) {
+      if (this.heap[index]! < this.heap[smallerChildIndex]!) {
         break
       }
 
@@ -117,9 +121,8 @@ export class MinHeap {
   }
 
   private swap(i: number, j: number): void {
-    ;[this.heap[i], this.heap[j]] = [
-      this.heap[j],
-      this.heap[i],
-    ]
+    const temp = this.heap[i]!
+    this.heap[i] = this.heap[j]!
+    this.heap[j] = temp
   }
 }

@@ -84,7 +84,7 @@ export class HashTable<K, V> {
     const index = this.hash(key)
     if (this.table[index]) {
       for (let i = 0; i < this.table[index].length; i++) {
-        if (this.table[index][i][0] === key) {
+        if (this.table[index][i]![0] === key) {
           this.table[index].splice(i, 1)
           return true
         }

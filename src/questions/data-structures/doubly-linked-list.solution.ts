@@ -1,106 +1,94 @@
-class DoublyListNode<T> {
-  public value: T
-  public next: DoublyListNode<T> | null
-  public prev: DoublyListNode<T> | null
+class DoublyLinkedListNode<T> {
+  data: T
+  next: DoublyLinkedListNode<T> | null
+  prev: DoublyLinkedListNode<T> | null
 
-  constructor(value: T) {
-    this.value = value
+  constructor(data: T) {
+    this.data = data
     this.next = null
     this.prev = null
   }
 }
 
 export class DoublyLinkedList<T> {
-  private head: DoublyListNode<T> | null = null
-  private tail: DoublyListNode<T> | null = null
-  private length = 0
+  head: DoublyLinkedListNode<T> | null
+  tail: DoublyLinkedListNode<T> | null
+  length: number
 
-  append(value: T) {
-    const newNode = new DoublyListNode(value)
+  constructor() {
+    this.head = null
+    this.tail = null
+    this.length = 0
+  }
+
+  add(data: T): void {
+    const newNode = new DoublyLinkedListNode(data)
     if (!this.head) {
       this.head = newNode
       this.tail = newNode
     } else {
-      if (!this.tail) {
-        throw new Error("Doubly Linked List: Tail is null.")
-      }
-      this.tail.next = newNode
+      this.tail!.next = newNode
       newNode.prev = this.tail
       this.tail = newNode
     }
     this.length++
-    return this
   }
 
-  prepend(value: T) {
-    const newNode = new DoublyListNode(value)
+  remove(data: T): boolean {
     if (!this.head) {
-      this.head = newNode
-      this.tail = newNode
-    } else {
-      this.head.prev = newNode
-      newNode.next = this.head
-      this.head = newNode
-    }
-    this.length++
-    return this
-  }
-
-  delete(value: T) {
-    if (!this.head) return null
-
-    let deletedNode: DoublyListNode<T> | null = null
-    while (this.head && this.head.value === value) {
-      deletedNode = this.head
-      this.head = this.head.next
-      if (this.head) this.head.prev = null
+      return false
     }
 
-    let currentNode = this.head
-    while (currentNode?.next) {
-      if (currentNode.next.value === value) {
-        deletedNode = currentNode.next
-        currentNode.next = currentNode.next.next
-        if (currentNode.next) {
-          currentNode.next.prev = currentNode
+    let current = this.head
+    while (current) {
+      if (current.data === data) {
+        if (current === this.head) {
+          this.head = current.next
+          if (this.head) {
+            this.head.prev = null
+          } else {
+            this.tail = null
+          }
+        } else if (current === this.tail) {
+          this.tail = current.prev
+          if (this.tail) {
+            this.tail.next = null
+          }
+        } else {
+          current.prev!.next = current.next
+          current.next!.prev = current.prev
         }
-      } else {
-        currentNode = currentNode.next
+        this.length--
+        return true
       }
+      current = current.next!
     }
-
-    if (this.tail?.value === value) {
-      this.tail = currentNode
-    }
-
-    if (deletedNode) {
-      this.length--
-    }
-
-    return deletedNode
+    return false
   }
 
-  find(value: T) {
-    if (!this.head) return null
-    let currentNode: DoublyListNode<T> | null = this.head
-    while (currentNode) {
-      if (currentNode.value === value) return currentNode
-      currentNode = currentNode.next
-    }
-    return null
-  }
-
-  toArray() {
-    const nodes = []
-    let currentNode = this.head
-    while (currentNode) {
-      nodes.push(currentNode)
-      currentNode = currentNode.next
-    }
-    return nodes
-  }
-
-  size() {
+  size(): number {
     return this.length
+  }
+
+  printForward(): void {
+    let current = this.head
+    let result = ""
+    while (current) {
+      result += current.data + " <-> "
+      current = current.next
+    }
+    result += "null"
+    console.log(result)
+  }
+
+  printBackward(): void {
+    let current = this.tail
+    let result = ""
+    while (current) {
+      result += current.data + " <-> "
+      current = current.prev!
+    }
+    result += "null"
+    console.log(result)
   }
 }

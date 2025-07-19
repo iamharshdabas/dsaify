@@ -1,16 +1,13 @@
-export function binarySearch<T>(sortedArray: T[], target: T): number {
+function binarySearch<T extends number | string>(arr: T[], target: T): number {
   let left = 0
-  let right = sortedArray.length - 1
+  let right = arr.length - 1
 
   while (left <= right) {
     const mid = Math.floor((left + right) / 2)
-    const midValue = sortedArray[mid]
 
-    if (midValue === target) {
+    if (arr[mid] === target) {
       return mid
-    }
-
-    if (midValue < target) {
+    } else if (arr[mid]! < target) {
       left = mid + 1
     } else {
       right = mid - 1
@@ -19,3 +16,5 @@ export function binarySearch<T>(sortedArray: T[], target: T): number {
 
   return -1
 }
+
+export default binarySearch

@@ -1,40 +1,49 @@
 class TrieNode {
-  public children: Map<string, TrieNode> = new Map()
-  public isEndOfWord = false
+  children: Map<string, TrieNode>
+  isEndOfWord: boolean
+
+  constructor() {
+    this.children = new Map()
+    this.isEndOfWord = false
+  }
 }
 
 export class Trie {
-  private root: TrieNode = new TrieNode()
+  root: TrieNode
+
+  constructor() {
+    this.root = new TrieNode()
+  }
 
   insert(word: string): void {
-    let currentNode = this.root
+    let current = this.root
     for (const char of word) {
-      if (!currentNode.children.has(char)) {
-        currentNode.children.set(char, new TrieNode())
+      if (!current.children.has(char)) {
+        current.children.set(char, new TrieNode())
       }
-      currentNode = currentNode.children.get(char) as TrieNode
+      current = current.children.get(char)!
     }
-    currentNode.isEndOfWord = true
+    current.isEndOfWord = true
   }
 
   search(word: string): boolean {
-    let currentNode = this.root
+    let current = this.root
     for (const char of word) {
-      if (!currentNode.children.has(char)) {
+      if (!current.children.has(char)) {
         return false
       }
-      currentNode = currentNode.children.get(char) as TrieNode
+      current = current.children.get(char)!
     }
-    return currentNode.isEndOfWord
+    return current.isEndOfWord
   }
 
   startsWith(prefix: string): boolean {
-    let currentNode = this.root
+    let current = this.root
     for (const char of prefix) {
-      if (!currentNode.children.has(char)) {
+      if (!current.children.has(char)) {
         return false
       }
-      currentNode = currentNode.children.get(char) as TrieNode
+      current = current.children.get(char)!
     }
     return true
   }

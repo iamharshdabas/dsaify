@@ -3,11 +3,11 @@ import { ALGORITHMS_DIR, createFilePath, getFileContent } from "../../utils/ques
 
 const bfsQuestion: Question = {
   category: "algorithms",
-  id: "b9f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8fa",
-  level: "Easy",
+  id: "o7p8q9r0-s1t2-3456-7890-1abcdef23456",
+  level: "Medium",
   solution: await getFileContent(createFilePath(ALGORITHMS_DIR, "bfs.solution.ts")),
   synopsis: await getFileContent(createFilePath(ALGORITHMS_DIR, "bfs.synopsis.md")),
-  title: "Breadth First Search",
+  title: "Breadth-First Search (BFS)",
 }
 
 export default bfsQuestion

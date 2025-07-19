@@ -1,29 +1,38 @@
 export class Graph<T> {
-  private adjacencyList: Map<T, T[]> = new Map()
+  private adjList: Map<T, T[]>
 
-  addVertex(vertex: T) {
-    if (!this.adjacencyList.has(vertex)) {
-      this.adjacencyList.set(vertex, [])
+  constructor() {
+    this.adjList = new Map()
+  }
+
+  addVertex(vertex: T): void {
+    if (!this.adjList.has(vertex)) {
+      this.adjList.set(vertex, [])
     }
   }
 
-  addEdge(vertex1: T, vertex2: T) {
-    this.adjacencyList.get(vertex1)?.push(vertex2)
-    this.adjacencyList.get(vertex2)?.push(vertex1)
-  }
-
-  removeEdge(vertex1: T, vertex2: T) {
-    this.adjacencyList.set(vertex1, this.adjacencyList.get(vertex1)?.filter((v) => v !== vertex2) || [])
-    this.adjacencyList.set(vertex2, this.adjacencyList.get(vertex2)?.filter((v) => v !== vertex1) || [])
-  }
-
-  removeVertex(vertex: T) {
-    while (this.adjacencyList.get(vertex)?.length) {
-      const adjacentVertex = this.adjacencyList.get(vertex)?.pop()
-      if (adjacentVertex) {
-        this.removeEdge(vertex, adjacentVertex)
-      }
+  addEdge(vertex1: T, vertex2: T): void {
+    if (!this.adjList.has(vertex1)) {
+      this.addVertex(vertex1)
     }
-    this.adjacencyList.delete(vertex)
+    if (!this.adjList.has(vertex2)) {
+      this.addVertex(vertex2)
+    }
+    this.adjList.get(vertex1)?.push(vertex2)
+    this.adjList.get(vertex2)?.push(vertex1)
+  }
+
+  getVertices(): T[] {
+    return Array.from(this.adjList.keys())
+  }
+
+  getNeighbors(vertex: T): T[] | undefined {
+    return this.adjList.get(vertex)
+  }
+
+  printGraph(): void {
+    for (const [vertex, neighbors] of this.adjList.entries()) {
+      console.log(`${vertex} -> ${neighbors.join(", ")}`)
+    }
   }
 }

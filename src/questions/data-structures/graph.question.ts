@@ -3,11 +3,11 @@ import { createFilePath, DATA_STRUCTURES_DIR, getFileContent } from "../../utils
 
 const graphQuestion: Question = {
   category: "data-structures",
-  id: "a9f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8fc",
-  level: "Easy",
+  id: "j2k3l4m5-n6o7-8901-2345-67890abcdef",
+  level: "Medium",
   solution: await getFileContent(createFilePath(DATA_STRUCTURES_DIR, "graph.solution.ts")),
   synopsis: await getFileContent(createFilePath(DATA_STRUCTURES_DIR, "graph.synopsis.md")),
-  title: "Graph",
+  title: "Graph (Adjacency List)",
 }
 
 export default graphQuestion

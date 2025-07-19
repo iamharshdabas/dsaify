@@ -1,101 +1,85 @@
-class ListNode<T> {
-  public value: T
-  public next: ListNode<T> | null
+class Node<T> {
+  data: T
+  next: Node<T> | null
 
-  constructor(value: T) {
-    this.value = value
+  constructor(data: T) {
+    this.data = data
     this.next = null
   }
 }
 
 export class LinkedList<T> {
-  private head: ListNode<T> | null = null
-  private tail: ListNode<T> | null = null
-  private length = 0
+  head: Node<T> | null
 
-  append(value: T) {
-    const newNode = new ListNode(value)
-    if (!this.head || !this.tail) {
-      this.head = newNode
-      this.tail = newNode
-    } else {
-      this.tail.next = newNode
-      this.tail = newNode
-    }
-    this.length++
-    return this
+  constructor() {
+    this.head = null
   }
 
-  prepend(value: T) {
-    const newNode = new ListNode(value)
+  add(data: T): void {
+    const newNode = new Node(data)
     if (!this.head) {
       this.head = newNode
-      this.tail = newNode
     } else {
-      newNode.next = this.head
-      this.head = newNode
+      let current = this.head
+      while (current.next) {
+        current = current.next
+      }
+      current.next = newNode
     }
-    this.length++
-    return this
   }
 
-  delete(value: T) {
-    if (!this.head) return null
+  remove(data: T): boolean {
+    if (!this.head) {
+      return false
+    }
 
-    let deletedNode = null
-    while (this.head && this.head.value === value) {
-      deletedNode = this.head
+    if (this.head.data === data) {
       this.head = this.head.next
+      return true
     }
 
-    let currentNode = this.head
-    if (currentNode !== null) {
-      while (currentNode.next) {
-        if (currentNode.next.value === value) {
-          deletedNode = currentNode.next
-          currentNode.next = currentNode.next.next
-        } else {
-          currentNode = currentNode.next
-        }
+    let current = this.head
+    while (current.next && current.next.data !== data) {
+      current = current.next
+    }
+
+    if (current.next) {
+      current.next = current.next.next
+      return true
+    }
+
+    return false
+  }
+
+  search(data: T): boolean {
+    let current = this.head
+    while (current) {
+      if (current.data === data) {
+        return true
       }
+      current = current.next
     }
-
-    if (this.tail?.value === value) {
-      this.tail = currentNode
-    }
-
-    if (deletedNode) {
-      this.length--
-    }
-
-    return deletedNode
+    return false
   }
 
-  find(value: T) {
-    if (!this.head) return null
-
-    let currentNode: ListNode<T> | null = this.head
-    while (currentNode) {
-      if (currentNode.value === value) {
-        return currentNode
-      }
-      currentNode = currentNode.next
+  size(): number {
+    let count = 0
+    let current = this.head
+    while (current) {
+      count++
+      current = current.next
     }
-
-    return null
+    return count
   }
 
-  toArray() {
-    const nodes = []
-    let currentNode = this.head
-    while (currentNode) {
-      nodes.push(currentNode)
-      currentNode = currentNode.next
+  print(): void {
+    let current = this.head
+    let result = ""
+    while (current) {
+      result += current.data + " -> "
+      current = current.next
     }
-    return nodes
-  }
-
-  size() {
-    return this.length
+    result += "null"
+    console.log(result)
   }
 }

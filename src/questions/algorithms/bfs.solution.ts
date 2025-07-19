@@ -1,35 +1,27 @@
-class TreeNode<T> {
-  public value: T
-  public left: TreeNode<T> | null = null
-  public right: TreeNode<T> | null = null
+import type { Graph } from "../data-structures/graph.solution"
+import { Queue } from "../data-structures/queue.solution"
 
-  constructor(value: T) {
-    this.value = value
-  }
-}
-
-export function bfs<T>(root: TreeNode<T> | null): T[] {
+export function bfs<T>(graph: Graph<T>, startNode: T): T[] {
+  const visited: Set<T> = new Set()
+  const queue = new Queue<T>()
   const result: T[] = []
-  if (!root) return result
 
-  const queue: TreeNode<T>[] = [
-    root,
-  ]
+  visited.add(startNode)
+  queue.enqueue(startNode)
 
-  while (queue.length > 0) {
-    const node = queue.shift()
-    if (node === undefined) {
-      throw new Error("BFS: Queue is empty.")
-    }
-    result.push(node.value)
+  while (!queue.isEmpty()) {
+    const currentNode = queue.dequeue()!
+    result.push(currentNode)
 
-    if (node.left) {
-      queue.push(node.left)
-    }
-    if (node.right) {
-      queue.push(node.right)
+    const neighbors = graph.getNeighbors(currentNode)
+    if (neighbors) {
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor)
+          queue.enqueue(neighbor)
+        }
+      }
     }
   }
-
   return result
 }

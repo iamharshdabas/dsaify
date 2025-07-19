@@ -1,7 +1,7 @@
 import fs from "node:fs/promises"
 import path from "node:path"
-import { algorithms } from "../questions/algorithms"
-import { dataStructures } from "../questions/data-structures"
+import { algorithms } from "../questions/algorithms/index"
+import { dataStructures } from "../questions/data-structures/index"
 import type { Level, Question, QuestionCategory } from "../types"
 
 export const DATA_STRUCTURES_DIR = "./src/questions/data-structures" as const

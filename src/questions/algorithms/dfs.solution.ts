@@ -1,35 +1,23 @@
-class TreeNode<T> {
-  public value: T
-  public left: TreeNode<T> | null = null
-  public right: TreeNode<T> | null = null
+import type { Graph } from "../data-structures/graph.solution"
 
-  constructor(value: T) {
-    this.value = value
-  }
-}
-
-export function dfs<T>(root: TreeNode<T> | null): T[] {
+export function dfs<T>(graph: Graph<T>, startNode: T): T[] {
+  const visited: Set<T> = new Set()
   const result: T[] = []
-  if (!root) return result
 
-  const stack: TreeNode<T>[] = [
-    root,
-  ]
+  function dfsRecursive(currentNode: T): void {
+    visited.add(currentNode)
+    result.push(currentNode)
 
-  while (stack.length > 0) {
-    const node = stack.pop()
-    if (node === undefined) {
-      throw new Error("DFS: Stack is empty.")
-    }
-    result.push(node.value)
-
-    if (node.right) {
-      stack.push(node.right)
-    }
-    if (node.left) {
-      stack.push(node.left)
+    const neighbors = graph.getNeighbors(currentNode)
+    if (neighbors) {
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          dfsRecursive(neighbor)
+        }
+      }
     }
   }
 
+  dfsRecursive(startNode)
   return result
 }

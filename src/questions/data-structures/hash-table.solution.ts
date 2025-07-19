@@ -1,32 +1,76 @@
-export class HashTable<T> {
-  private storage: Map<string, T> = new Map()
+export class HashTable<K, V> {
+  private table: {
+    [key: string]: [
+      K,
+      V,
+    ][]
+  }
+  private size: number
 
-  private hash(key: string): string {
-    // Simple hash function for demonstration
-    return key.toString()
+  constructor(size: number = 100) {
+    this.table = {}
+    this.size = size
   }
 
-  set(key: string, value: T): void {
-    const hashedKey = this.hash(key)
-    this.storage.set(hashedKey, value)
+  private hash(key: K): string {
+    return (String(key).length % this.size) as unknown as string
   }
 
-  get(key: string): T | undefined {
-    const hashedKey = this.hash(key)
-    return this.storage.get(hashedKey)
+  set(key: K, value: V): void {
+    const index = this.hash(key)
+    if (!this.table[index]) {
+      this.table[index] = []
+    }
+    // Handle collisions (simple chaining)
+    let found = false
+    for (let i = 0; i < this.table[index].length; i++) {
+      const entry = this.table[index][i]
+      if (entry && entry[0] === key) {
+        entry[1] = value
+        found = true
+        break
+      }
+    }
+    if (!found) {
+      this.table[index].push([
+        key,
+        value,
+      ])
+    }
   }
 
-  delete(key: string): boolean {
-    const hashedKey = this.hash(key)
-    return this.storage.delete(hashedKey)
+  get(key: K): V | undefined {
+    const index = this.hash(key)
+    if (this.table[index]) {
+      for (let i = 0; i < this.table[index].length; i++) {
+        const entry = this.table[index][i]
+        if (entry && entry[0] === key) {
+          return entry[1]
+        }
+      }
+    }
+    return undefined
   }
 
-  has(key: string): boolean {
-    const hashedKey = this.hash(key)
-    return this.storage.has(hashedKey)
+  delete(key: K): boolean {
+    const index = this.hash(key)
+    if (this.table[index]) {
+      for (let i = 0; i < this.table[index].length; i++) {
+        const entry = this.table[index][i]
+        if (entry && entry[0] === key) {
+          this.table[index].splice(i, 1)
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  has(key: K): boolean {
+    return this.get(key) !== undefined
   }
 
   clear(): void {
-    this.storage.clear()
+    this.table = {}
   }
 }

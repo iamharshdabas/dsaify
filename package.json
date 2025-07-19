@@ -19,12 +19,13 @@
   },
   "private": true,
   "scripts": {
-    "build": "bun run tsc && bun build ./src/index.ts --outdir ./out --minify --sourcemap --target node",
+    "build": "bun run tsc && bun run test && bun build ./src/index.ts --outdir ./out --minify --sourcemap --target node",
     "build:watch": "bun build ./src/index.ts --outdir ./out --minify --sourcemap --watch --target bun",
     "link:local": "bun link",
     "link:package": "bun link dsaify",
     "lint:fix": "biome check --write .",
     "prepare": "lefthook install",
+    "test": "bun test",
     "unlink:local": "bun unlink"
   },
   "type": "module"

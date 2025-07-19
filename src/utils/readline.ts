@@ -1,4 +1,5 @@
 import readline from "node:readline"
+import type { KeypressListener } from "../types"
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -19,28 +20,20 @@ export const rlCursorToLastUserInput = (userText: string) => {
 }
 
 export const rlOnKeypress = (
-  callback: (
-    str: string,
-    key: {
-      name: string
-      ctrl?: boolean
-    },
-  ) => void,
+  callback: (str: Pick<KeypressListener, "str">, key: Pick<KeypressListener, "key">) => void,
 ) => {
-  process.stdin.on("keypress", (str, key) => {
-    if (key.ctrl && key.name === "c") cleanupAndExit()
+  process.stdin.on("keypress", (str: Pick<KeypressListener, "str">, key: Pick<KeypressListener, "key">) => {
     callback(str, key)
   })
 }
 
-export const updateUserText = (
-  userText: string,
-  str: string,
-  key: {
-    name: string
-    ctrl?: boolean
-  },
-) => {
+export const updateUserText = ({
+  userText,
+  str,
+  key,
+}: KeypressListener & {
+  userText: string
+}) => {
   switch (key.name) {
     case "backspace":
       return userText.slice(0, -1)
@@ -53,11 +46,12 @@ export const updateUserText = (
   }
 }
 
-export const cleanupAndExit = () => {
+export const cleanupAndExit = (keypressListener: ({ str, key }: KeypressListener) => void) => {
   if (process.stdin.isTTY) {
     process.stdin.setRawMode(false)
   }
-  process.stdout.write("\nExiting...\n")
+
+  process.stdin.removeListener("keypress", keypressListener)
   process.exit(0)
 }
 

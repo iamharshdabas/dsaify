@@ -1,10 +1,6 @@
 import chalk from "chalk"
 import { createHighlighter } from "shiki"
-
-type HighlightToken = {
-  char: string
-  color: string
-}
+import type { HighlightToken } from "../types"
 
 const rosepineTheme = {
   // comments

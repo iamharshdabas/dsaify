@@ -1,7 +1,3 @@
-/**
- * @class MinHeap
- * @description A binary heap data structure that maintains the min-heap property.
- */
 export class MinHeap {
   private heap: number[]
 
@@ -9,33 +5,19 @@ export class MinHeap {
     this.heap = []
   }
 
-  /**
-   * @returns The number of elements in the heap.
-   */
   public get size(): number {
     return this.heap.length
   }
 
-  /**
-   * @returns `true` if the heap is empty, `false` otherwise.
-   */
   public isEmpty(): boolean {
     return this.size === 0
   }
 
-  /**
-   * @description Adds a new element to the heap.
-   * @param item The element to add.
-   */
   public insert(item: number): void {
     this.heap.push(item)
     this.heapifyUp()
   }
 
-  /**
-   * @description Removes and returns the minimum element from the heap.
-   * @returns The minimum element, or `null` if the heap is empty.
-   */
   public extractMin(): number | null {
     if (this.isEmpty()) {
       return null
@@ -44,7 +26,7 @@ export class MinHeap {
       const val = this.heap.pop()
       return val === undefined ? null : val
     }
-    const min = this.heap[0] as number // Assert as number, as heap is not empty
+    const min = this.heap[0] as number
     const lastElement = this.heap.pop()
     if (lastElement !== undefined) {
       this.heap[0] = lastElement
@@ -53,9 +35,6 @@ export class MinHeap {
     return min
   }
 
-  /**
-   * @description Restores the min-heap property by moving the last element up.
-   */
   private heapifyUp(): void {
     let index = this.size - 1
     while (this.hasParent(index) && (this.parent(index) as number) > this.heap[index]!) {
@@ -64,9 +43,6 @@ export class MinHeap {
     }
   }
 
-  /**
-   * @description Restores the min-heap property by moving the root element down.
-   */
   private heapifyDown(): void {
     let index = 0
     while (this.hasLeftChild(index)) {

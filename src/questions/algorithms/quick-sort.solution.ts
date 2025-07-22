@@ -24,7 +24,7 @@ function partition<T extends number | string>(arr: T[], low: number, high: numbe
   ;[arr[i + 1]!, arr[high]!] = [
     arr[high]!,
     arr[i + 1]!,
-  ] // Swap pivot to its correct position
+  ]
   return i + 1
 }
 

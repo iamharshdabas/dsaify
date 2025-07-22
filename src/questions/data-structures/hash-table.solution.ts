@@ -1,9 +1,3 @@
-/**
- * @class HashTable
- * @description A data structure that maps keys to values using a hash function.
- * @template K The type of the keys.
- * @template V The type of the values.
- */
 export class HashTable<K, V> {
   private table: Array<
     Array<
@@ -20,11 +14,6 @@ export class HashTable<K, V> {
     this.size = size
   }
 
-  /**
-   * @description Hashes a key to an index in the table.
-   * @param key The key to hash.
-   * @returns The index in the table.
-   */
   private hash(key: K): number {
     const keyStr = String(key)
     let hash = 0
@@ -34,11 +23,6 @@ export class HashTable<K, V> {
     return hash
   }
 
-  /**
-   * @description Adds a new key-value pair to the table.
-   * @param key The key.
-   * @param value The value.
-   */
   public set(key: K, value: V): void {
     const index = this.hash(key)
     if (!this.table[index]) {
@@ -57,12 +41,6 @@ export class HashTable<K, V> {
       value,
     ])
   }
-
-  /**
-   * @description Retrieves the value associated with a key.
-   * @param key The key to retrieve.
-   * @returns The value, or `undefined` if the key is not found.
-   */
   public get(key: K): V | undefined {
     const index = this.hash(key)
     if (this.table[index]) {
@@ -75,11 +53,6 @@ export class HashTable<K, V> {
     return undefined
   }
 
-  /**
-   * @description Deletes a key-value pair from the table.
-   * @param key The key to delete.
-   * @returns `true` if the pair was deleted, `false` otherwise.
-   */
   public delete(key: K): boolean {
     const index = this.hash(key)
     if (this.table[index]) {
@@ -93,11 +66,6 @@ export class HashTable<K, V> {
     return false
   }
 
-  /**
-   * @description Checks if a key exists in the table.
-   * @param key The key to check.
-   * @returns `true` if the key exists, `false` otherwise.
-   */
   public has(key: K): boolean {
     return this.get(key) !== undefined
   }

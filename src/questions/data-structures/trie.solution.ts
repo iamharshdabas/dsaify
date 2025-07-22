@@ -52,7 +52,7 @@ export class Trie {
     const deleteRecursive = (current: TrieNode, word: string, index: number): boolean => {
       if (index === word.length) {
         if (!current.isEndOfWord) {
-          return false // Word not found
+          return false
         }
         current.isEndOfWord = false
         return current.children.size === 0
@@ -62,7 +62,7 @@ export class Trie {
       const child = current.children.get(char)
 
       if (!child) {
-        return false // Word not found
+        return false
       }
 
       const shouldDeleteChild = deleteRecursive(child, word, index + 1)

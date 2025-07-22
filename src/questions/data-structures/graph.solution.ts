@@ -1,8 +1,3 @@
-/**
- * @class Graph
- * @description Represents a graph using an adjacency list.
- * @template T The type of the values stored in the graph's vertices.
- */
 export class Graph<T> {
   private adjList: Map<T, T[]>
 
@@ -10,28 +5,16 @@ export class Graph<T> {
     this.adjList = new Map()
   }
 
-  /**
-   * @returns The adjacency list of the graph.
-   */
   public get nodes(): Map<T, T[]> {
     return this.adjList
   }
 
-  /**
-   * @description Adds a new vertex to the graph.
-   * @param vertex The vertex to add.
-   */
   public addVertex(vertex: T): void {
     if (!this.adjList.has(vertex)) {
       this.adjList.set(vertex, [])
     }
   }
 
-  /**
-   * @description Adds an edge between two vertices.
-   * @param vertex1 The first vertex.
-   * @param vertex2 The second vertex.
-   */
   public addEdge(vertex1: T, vertex2: T): void {
     if (!this.adjList.has(vertex1)) {
       this.addVertex(vertex1)
@@ -43,10 +26,6 @@ export class Graph<T> {
     this.adjList.get(vertex2)!.push(vertex1)
   }
 
-  /**
-   * @description Removes a vertex from the graph.
-   * @param vertex The vertex to remove.
-   */
   public removeVertex(vertex: T): void {
     if (!this.adjList.has(vertex)) {
       return
@@ -60,11 +39,6 @@ export class Graph<T> {
     }
   }
 
-  /**
-   * @description Removes an edge between two vertices.
-   * @param vertex1 The first vertex.
-   * @param vertex2 The second vertex.
-   */
   public removeEdge(vertex1: T, vertex2: T): void {
     const v1Neighbors = this.adjList.get(vertex1)
     const v2Neighbors = this.adjList.get(vertex2)
@@ -80,11 +54,6 @@ export class Graph<T> {
     }
   }
 
-  /**
-   * @description Performs a breadth-first search on the graph.
-   * @param startNode The node to start the search from.
-   * @returns An array of visited nodes in BFS order.
-   */
   public bfs(startNode: T): T[] {
     const visited = new Set<T>()
     const queue: T[] = []
@@ -112,11 +81,6 @@ export class Graph<T> {
     return result
   }
 
-  /**
-   * @description Performs a depth-first search on the graph.
-   * @param startNode The node to start the search from.
-   * @returns An array of visited nodes in DFS order.
-   */
   public dfs(startNode: T): T[] {
     const visited = new Set<T>()
     const result: T[] = []

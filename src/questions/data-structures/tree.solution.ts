@@ -97,7 +97,6 @@ export class BinarySearchTree<T> {
     } else if (value > node.value) {
       node.right = this._deleteNode(node.right, value)
     } else {
-      // Node with no children or one child
       if (!node.left && !node.right) {
         return null
       } else if (!node.left) {
@@ -105,7 +104,6 @@ export class BinarySearchTree<T> {
       } else if (!node.right) {
         return node.left
       } else {
-        // Node with two children: Get the inorder successor (smallest in the right subtree)
         let tempNode = node.right
         while (tempNode.left) {
           tempNode = tempNode.left

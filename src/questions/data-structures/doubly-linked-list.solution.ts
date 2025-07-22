@@ -1,8 +1,3 @@
-/**
- * @class DoublyLinkedListNode
- * @description Represents a node in the doubly linked list.
- * @template T The type of the value stored in the node.
- */
 class DoublyLinkedListNode<T> {
   public value: T
   public next: DoublyLinkedListNode<T> | null
@@ -15,11 +10,6 @@ class DoublyLinkedListNode<T> {
   }
 }
 
-/**
- * @class DoublyLinkedList
- * @description A linear data structure where each node has a pointer to the next and previous node.
- * @template T The type of the values stored in the list.
- */
 export class DoublyLinkedList<T> {
   public head: DoublyLinkedListNode<T> | null
   public tail: DoublyLinkedListNode<T> | null
@@ -31,24 +21,14 @@ export class DoublyLinkedList<T> {
     this.length = 0
   }
 
-  /**
-   * @returns The number of nodes in the list.
-   */
   public get size(): number {
     return this.length
   }
 
-  /**
-   * @returns `true` if the list is empty, `false` otherwise.
-   */
   public isEmpty(): boolean {
     return this.length === 0
   }
 
-  /**
-   * @description Adds a new node with the given value to the end of the list.
-   * @param value The value to add.
-   */
   public addTail(value: T): void {
     const newNode = new DoublyLinkedListNode(value)
     if (this.isEmpty()) {
@@ -62,10 +42,6 @@ export class DoublyLinkedList<T> {
     this.length++
   }
 
-  /**
-   * @description Adds a new node with the given value to the beginning of the list.
-   * @param value The value to add.
-   */
   public addHead(value: T): void {
     const newNode = new DoublyLinkedListNode(value)
     if (this.isEmpty()) {
@@ -79,10 +55,6 @@ export class DoublyLinkedList<T> {
     this.length++
   }
 
-  /**
-   * @description Removes the last node from the list.
-   * @returns The value of the removed node, or `null` if the list is empty.
-   */
   public removeTail(): T | null {
     if (!this.tail) {
       return null
@@ -99,10 +71,6 @@ export class DoublyLinkedList<T> {
     return value
   }
 
-  /**
-   * @description Removes the first node from the list.
-   * @returns The value of the removed node, or `null` if the list is empty.
-   */
   public removeHead(): T | null {
     if (!this.head) {
       return null
@@ -119,11 +87,6 @@ export class DoublyLinkedList<T> {
     return value
   }
 
-  /**
-   * @description Finds a node with the given value.
-   * @param value The value to find.
-   * @returns The node if found, `null` otherwise.
-   */
   public find(value: T): DoublyLinkedListNode<T> | null {
     let current = this.head
     while (current) {
@@ -135,11 +98,6 @@ export class DoublyLinkedList<T> {
     return null
   }
 
-  /**
-   * @description Deletes a node with the given value.
-   * @param value The value to delete.
-   * @returns `true` if the node was deleted, `false` otherwise.
-   */
   public delete(value: T): boolean {
     const nodeToDelete = this.find(value)
     if (!nodeToDelete) {

@@ -19,8 +19,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "bun run test && bun build ./src/index.ts --outdir ./out --minify --sourcemap --target node",
-    "build:watch": "bun build ./src/index.ts --outdir ./out --minify --sourcemap --watch --target bun",
+    "build": "bun build ./src/index.ts --outdir ./out --minify --sourcemap --target bun",
+    "build:watch": "bun run build -- --watch ",
     "link:local": "bun link",
     "link:package": "bun link dsaify",
     "lint:fix": "biome check --write .",

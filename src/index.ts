@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { Command } from "commander"
 import type { KeypressListener, Level, Question, QuestionCategory } from "./types"

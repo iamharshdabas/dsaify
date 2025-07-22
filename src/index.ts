@@ -92,8 +92,8 @@ program
     while (true) {
       try {
         const question = getQuestion(selectedCategory, selectedLevel)
-        console.log(`\n--- ${question.title} (${question.level}) ---\n`)
-        console.log(`${question.synopsis}\n`)
+        // console.log(`\n--- ${question.title} (${question.level}) ---\n`)
+        // console.log(`${question.synopsis}\n`)
         await runTest(question)
       } catch (error) {
         if (error instanceof Error) {

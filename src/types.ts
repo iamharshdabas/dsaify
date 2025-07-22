@@ -3,7 +3,6 @@ import type { ALGORITHMS_DIR, DATA_STRUCTURES_DIR } from "./utils/question"
 export type Level = "Easy" | "Medium" | "Hard"
 
 export interface Question {
-  id: string
   category: "data-structures" | "algorithms"
   title: string
   solution: string

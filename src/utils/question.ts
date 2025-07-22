@@ -1,5 +1,3 @@
-import fs from "node:fs/promises"
-import path from "node:path"
 import { algorithms } from "../questions/algorithms/index"
 import { dataStructures } from "../questions/data-structures/index"
 import type { Level, Question, QuestionCategory } from "../types"
@@ -14,15 +12,6 @@ export const questions: Question[] = [
   ...dataStructures,
   ...algorithms,
 ]
-
-export const getFileContent = async (solutionPath: string) => {
-  const file = await fs.open(solutionPath, "r")
-  return await file.readFile("utf-8")
-}
-
-export const createFilePath = (dirPath: QuestionCategory, file: string) => {
-  return path.join(dirPath, file)
-}
 
 export const getQuestions = (category?: QuestionCategory, level?: Level): Question[] => {
   let filteredQuestions: Question[] = []

@@ -35,8 +35,8 @@ async function runTest(question: Question): Promise<void> {
   }
 
   return new Promise((resolve) => {
-    const keypressListener = ({ str, key }: KeypressListener) => {
-      if (key.ctrl && key.name === "c") cleanupAndExit(keypressListener)
+    const keypressListener = (str: KeypressListener["str"], key: KeypressListener["key"]) => {
+      if (key?.ctrl && key?.name === "c") cleanupAndExit(keypressListener)
 
       userText = updateUserText({
         key,

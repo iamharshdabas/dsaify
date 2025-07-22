@@ -19,10 +19,8 @@ export const rlCursorToLastUserInput = (userText: string) => {
   rlCursorTo(currentLineText.length, currentLine)
 }
 
-export const rlOnKeypress = (
-  callback: (str: Pick<KeypressListener, "str">, key: Pick<KeypressListener, "key">) => void,
-) => {
-  process.stdin.on("keypress", (str: Pick<KeypressListener, "str">, key: Pick<KeypressListener, "key">) => {
+export const rlOnKeypress = (callback: (str: KeypressListener["str"], key: KeypressListener["key"]) => void) => {
+  process.stdin.on("keypress", (str, key) => {
     callback(str, key)
   })
 }
@@ -34,7 +32,7 @@ export const updateUserText = ({
 }: KeypressListener & {
   userText: string
 }) => {
-  switch (key.name) {
+  switch (key?.name) {
     case "backspace":
       return userText.slice(0, -1)
     case "tab":
@@ -46,7 +44,9 @@ export const updateUserText = ({
   }
 }
 
-export const cleanupAndExit = (keypressListener: ({ str, key }: KeypressListener) => void) => {
+export const cleanupAndExit = (
+  keypressListener: (str: KeypressListener["str"], key: KeypressListener["key"]) => void,
+) => {
   if (process.stdin.isTTY) {
     process.stdin.setRawMode(false)
   }

@@ -12,7 +12,7 @@ export interface Question {
 
 export type KeypressListener = {
   str: string
-  key: {
+  key?: {
     sequence: string
     name: string
     ctrl: boolean

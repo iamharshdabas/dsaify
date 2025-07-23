@@ -1,5 +1,5 @@
 import { Box, useApp, useInput } from "ink"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTimer } from "use-timer"
 import type { Level, Question, QuestionCategory } from "../../types"
 import { getQuestion } from "../../utils/question"
@@ -22,6 +22,8 @@ export default function GameScreen({ category, level, onRestart }: GameScreenPro
   const [inputValue, setInputValue] = useState("")
   const [showSynopsis, setShowSynopsis] = useState(false)
   const [scroll, setScroll] = useState(0)
+  const [finished, setFinished] = useState(false)
+  const gameFinishedRef = useRef(false)
   const { time, start, pause, reset } = useTimer()
   const { exit } = useApp()
 
@@ -62,23 +64,41 @@ export default function GameScreen({ category, level, onRestart }: GameScreenPro
     ])
     setQuestionIndex(0)
     setInputValue("")
+    setFinished(false)
+    gameFinishedRef.current = false
     reset()
     start()
   }, [
     category,
     level,
+    reset,
+    start,
+  ])
+
+  useEffect(() => {
+    if (question && inputValue.length === question.solution.length && !gameFinishedRef.current) {
+      pause()
+      setFinished(true)
+      gameFinishedRef.current = true
+    }
+  }, [
+    question,
+    inputValue,
+    pause,
   ])
 
   if (!question) {
     return null
   }
 
-  const wpm = Math.round((inputValue.length / 5 / time) * 60)
+  const wpm = time > 0 ? Math.round((inputValue.length / 5 / time) * 60) : 0
   const accuracy =
-    (inputValue.split("").filter((char, index) => char === question.solution[index]).length / inputValue.length) * 100
+    inputValue.length > 0
+      ? (inputValue.split("").filter((char, index) => char === question.solution[index]).length / inputValue.length) *
+        100
+      : 0
 
-  if (inputValue.length === question.solution.length) {
-    pause()
+  if (finished) {
     return <ResultsScreen accuracy={accuracy} onRestart={onRestart} wpm={wpm} />
   }
 

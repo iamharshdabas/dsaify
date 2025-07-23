@@ -28,7 +28,7 @@ const items = [
 export default function LevelScreen({ setLevel }: LevelScreenProps) {
   return (
     <Box flexDirection="column">
-      <Text>Select a level (press Enter for All):</Text>
+      <Text>Select a level:</Text>
       <SelectInput initialIndex={0} items={items} onSelect={(item) => setLevel(item.value as Level)} />
     </Box>
   )

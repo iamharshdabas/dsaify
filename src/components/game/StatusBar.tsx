@@ -1,29 +1,26 @@
 import { Box, Text } from "ink"
-import type { Level, Question, QuestionCategory } from "../../types"
+import type { Question } from "../../types"
 
 interface StatusBarProps {
-  category: QuestionCategory
-  level: Level
   question: Question
   time: number
   wpm: number
   accuracy: number
 }
 
-export default function StatusBar({ category, level, question, time, wpm, accuracy }: StatusBarProps) {
+export default function StatusBar({ question, time, wpm, accuracy }: StatusBarProps) {
   return (
     <Box flexDirection="column" marginBottom={1}>
       <Box>
         <Text color="gray">Category: </Text>
-        <Text color="cyan">{category}</Text>
+        <Text color="cyan">{question.category}</Text>
         <Text color="gray"> | </Text>
         <Text color="gray">Level: </Text>
-        <Text color="cyan">{level}</Text>
+        <Text color="cyan">{question.level}</Text>
         <Text color="gray"> | </Text>
         <Text color="gray">Question: </Text>
         <Text color="cyan">{question.name}</Text>
-      </Box>
-      <Box>
+        <Text color="gray"> | </Text>
         <Text color="gray">Time: </Text>
         <Text color="yellow">{time}s</Text>
         <Text color="gray"> | </Text>

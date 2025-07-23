@@ -25,7 +25,7 @@ const items = [
 export default function CategoryScreen({ setCategory }: CategoryScreenProps) {
   return (
     <Box flexDirection="column">
-      <Text>Select a category (press Enter for All):</Text>
+      <Text>Select a category:</Text>
       <SelectInput initialIndex={0} items={items} onSelect={(item) => setCategory(item.value as QuestionCategory)} />
     </Box>
   )

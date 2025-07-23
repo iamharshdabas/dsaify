@@ -103,7 +103,7 @@ export default function GameScreen({ category, level, onRestart }: GameScreenPro
   }
 
   return (
-    <Box flexDirection="column" height={process.stdout.rows - 2}>
+    <Box flexDirection="column" height={process.stdout.rows - 1}>
       <StatusBar accuracy={accuracy} question={question} time={time} wpm={wpm} />
       {showSynopsis ? (
         <SynopsisPane scroll={scroll} synopsis={question.synopsis} />

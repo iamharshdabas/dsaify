@@ -1,4 +1,4 @@
-function mergeSort<T>(arr: T[]): T[] {
+function mergeSort<T>(arr: T[], comparator: (a: T, b: T) => number): T[] {
   if (arr.length <= 1) {
     return arr
   }
@@ -7,16 +7,16 @@ function mergeSort<T>(arr: T[]): T[] {
   const left = arr.slice(0, mid)
   const right = arr.slice(mid)
 
-  return merge(mergeSort(left), mergeSort(right))
+  return merge(mergeSort(left, comparator), mergeSort(right, comparator), comparator)
 }
 
-function merge<T>(left: T[], right: T[]): T[] {
+function merge<T>(left: T[], right: T[], comparator: (a: T, b: T) => number): T[] {
   const result: T[] = []
   let leftIndex = 0
   let rightIndex = 0
 
   while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex]! < right[rightIndex]!) {
+    if (comparator(left[leftIndex]!, right[rightIndex]!) <= 0) {
       result.push(left[leftIndex]!)
       leftIndex++
     } else {

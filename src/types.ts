@@ -1,10 +1,10 @@
 import type { ALGORITHMS_DIR, DATA_STRUCTURES_DIR } from "./utils/question"
 
-export type Level = "Easy" | "Medium" | "Hard"
+export type Level = "Easy" | "Medium" | "Hard" | "All"
 
 export interface Question {
   category: "data-structures" | "algorithms"
-  title: string
+  name: string
   solution: string
   synopsis: string
   level: Level
@@ -26,4 +26,4 @@ export type HighlightToken = {
   color: string
 }
 
-export type QuestionCategory = typeof DATA_STRUCTURES_DIR | typeof ALGORITHMS_DIR
+export type QuestionCategory = typeof DATA_STRUCTURES_DIR | typeof ALGORITHMS_DIR | "All"

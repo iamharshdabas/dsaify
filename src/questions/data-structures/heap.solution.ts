@@ -1,8 +1,23 @@
-export class MinHeap {
-  private heap: number[]
+export class MinHeap<T> {
+  private heap: T[]
+  private comparator: (a: T, b: T) => number
 
-  constructor() {
+  constructor(
+    comparator: (a: T, b: T) => number = (a, b) => {
+      if (typeof a === "number" && typeof b === "number") {
+        return a - b
+      }
+      if (typeof a === "string" && typeof b === "string") {
+        return a.localeCompare(b)
+      }
+      if (a instanceof Date && b instanceof Date) {
+        return a.getTime() - b.getTime()
+      }
+      return 0
+    },
+  ) {
     this.heap = []
+    this.comparator = comparator
   }
 
   public get size(): number {
@@ -13,12 +28,12 @@ export class MinHeap {
     return this.size === 0
   }
 
-  public insert(item: number): void {
+  public insert(item: T): void {
     this.heap.push(item)
     this.heapifyUp()
   }
 
-  public extractMin(): number | null {
+  public extractMin(): T | null {
     if (this.isEmpty()) {
       return null
     }
@@ -26,7 +41,7 @@ export class MinHeap {
       const val = this.heap.pop()
       return val === undefined ? null : val
     }
-    const min = this.heap[0] as number
+    const min = this.heap[0] as T
     const lastElement = this.heap.pop()
     if (lastElement !== undefined) {
       this.heap[0] = lastElement
@@ -35,9 +50,16 @@ export class MinHeap {
     return min
   }
 
+  public peek(): T | null {
+    if (this.isEmpty()) {
+      return null
+    }
+    return this.heap[0] as T
+  }
+
   private heapifyUp(): void {
     let index = this.size - 1
-    while (this.hasParent(index) && (this.parent(index) as number) > this.heap[index]!) {
+    while (this.hasParent(index) && this.comparator(this.parent(index)!, this.heap[index]!) > 0) {
       this.swap(this.getParentIndex(index), index)
       index = this.getParentIndex(index)
     }
@@ -47,11 +69,11 @@ export class MinHeap {
     let index = 0
     while (this.hasLeftChild(index)) {
       let smallerChildIndex = this.getLeftChildIndex(index)
-      if (this.hasRightChild(index) && (this.rightChild(index) as number) < (this.leftChild(index) as number)) {
+      if (this.hasRightChild(index) && this.comparator(this.rightChild(index)!, this.leftChild(index)!) < 0) {
         smallerChildIndex = this.getRightChildIndex(index)
       }
 
-      if (this.heap[index]! < this.heap[smallerChildIndex]!) {
+      if (this.comparator(this.heap[index]!, this.heap[smallerChildIndex]!) < 0) {
         break
       }
 
@@ -84,15 +106,15 @@ export class MinHeap {
     return this.getRightChildIndex(index) < this.size
   }
 
-  private parent(index: number): number | undefined {
+  private parent(index: number): T | undefined {
     return this.heap[this.getParentIndex(index)]
   }
 
-  private leftChild(index: number): number | undefined {
+  private leftChild(index: number): T | undefined {
     return this.heap[this.getLeftChildIndex(index)]
   }
 
-  private rightChild(index: number): number | undefined {
+  private rightChild(index: number): T | undefined {
     return this.heap[this.getRightChildIndex(index)]
   }
 
@@ -100,5 +122,9 @@ export class MinHeap {
     const temp = this.heap[i]!
     this.heap[i] = this.heap[j]!
     this.heap[j] = temp
+  }
+
+  public clear(): void {
+    this.heap = []
   }
 }

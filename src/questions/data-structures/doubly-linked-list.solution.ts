@@ -115,4 +115,14 @@ export class DoublyLinkedList<T> {
     }
     return true
   }
+
+  public toArray(): T[] {
+    const result: T[] = []
+    let current = this.head
+    while (current) {
+      result.push(current.value)
+      current = current.next
+    }
+    return result
+  }
 }

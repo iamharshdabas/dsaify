@@ -15,6 +15,10 @@ export class HashTable<K, V> {
   }
 
   private hash(key: K): number {
+    // Converts the key to a string for hashing.
+    // Note: For complex objects, this might result in collisions
+    // (e.g., String({a: 1}) and String({b: 2}) both become '[object Object]').
+    // For better handling of object keys, a custom serialization or a different hashing strategy would be needed.
     const keyStr = String(key)
     let hash = 0
     for (let i = 0; i < keyStr.length; i++) {
@@ -57,7 +61,7 @@ export class HashTable<K, V> {
     const index = this.hash(key)
     if (this.table[index]) {
       for (let i = 0; i < this.table[index].length; i++) {
-        if (this.table[index][i]![0] === key) {
+        if (this.table[index][i]?.[0] === key) {
           this.table[index].splice(i, 1)
           return true
         }
@@ -68,5 +72,9 @@ export class HashTable<K, V> {
 
   public has(key: K): boolean {
     return this.get(key) !== undefined
+  }
+
+  public clear(): void {
+    this.table = new Array(this.size)
   }
 }

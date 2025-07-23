@@ -84,4 +84,9 @@ export class LinkedList<T> {
     }
     return result
   }
+
+  public clear(): void {
+    this.head = null
+    this.length = 0
+  }
 }

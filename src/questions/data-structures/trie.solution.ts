@@ -77,4 +77,8 @@ export class Trie {
 
     return deleteRecursive(this.root, word, 0)
   }
+
+  public clear(): void {
+    this.root = new TrieNode()
+  }
 }

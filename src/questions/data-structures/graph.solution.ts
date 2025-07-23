@@ -6,7 +6,7 @@ export class Graph<T> {
   }
 
   public get nodes(): Map<T, T[]> {
-    return this.adjList
+    return new Map(this.adjList)
   }
 
   public addVertex(vertex: T): void {
@@ -16,14 +16,16 @@ export class Graph<T> {
   }
 
   public addEdge(vertex1: T, vertex2: T): void {
+    // Adds an undirected edge between two vertices.
+    // If vertices do not exist, they are added to the graph.
     if (!this.adjList.has(vertex1)) {
       this.addVertex(vertex1)
     }
     if (!this.adjList.has(vertex2)) {
       this.addVertex(vertex2)
     }
-    this.adjList.get(vertex1)!.push(vertex2)
-    this.adjList.get(vertex2)!.push(vertex1)
+    this.adjList.get(vertex1)?.push(vertex2)
+    this.adjList.get(vertex2)?.push(vertex1)
   }
 
   public removeVertex(vertex: T): void {
@@ -103,5 +105,9 @@ export class Graph<T> {
 
     dfsRecursive(startNode)
     return result
+  }
+
+  public clear(): void {
+    this.adjList = new Map()
   }
 }

@@ -24,19 +24,19 @@ test("mergeSort should sort an array of numbers in ascending order", () => {
     8,
     9,
   ]
-  expect(mergeSort(arr)).toEqual(sortedArr)
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual(sortedArr)
 })
 
 test("mergeSort should handle an empty array", () => {
   const arr: number[] = []
-  expect(mergeSort(arr)).toEqual([])
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual([])
 })
 
 test("mergeSort should handle an array with one element", () => {
   const arr = [
     42,
   ]
-  expect(mergeSort(arr)).toEqual([
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual([
     42,
   ])
 })
@@ -49,7 +49,7 @@ test("mergeSort should handle an already sorted array", () => {
     4,
     5,
   ]
-  expect(mergeSort(arr)).toEqual([
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual([
     1,
     2,
     3,
@@ -66,7 +66,7 @@ test("mergeSort should handle an array sorted in reverse order", () => {
     2,
     1,
   ]
-  expect(mergeSort(arr)).toEqual([
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual([
     1,
     2,
     3,
@@ -102,7 +102,7 @@ test("mergeSort should handle an array with duplicate elements", () => {
     8,
     9,
   ]
-  expect(mergeSort(arr)).toEqual(sortedArr)
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual(sortedArr)
 })
 
 test("mergeSort should handle negative numbers", () => {
@@ -128,7 +128,7 @@ test("mergeSort should handle negative numbers", () => {
     -2,
     -1,
   ]
-  expect(mergeSort(arr)).toEqual(sortedArr)
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual(sortedArr)
 })
 
 test("mergeSort should handle mixed positive and negative numbers", () => {
@@ -154,7 +154,7 @@ test("mergeSort should handle mixed positive and negative numbers", () => {
     5,
     8,
   ]
-  expect(mergeSort(arr)).toEqual(sortedArr)
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual(sortedArr)
 })
 
 test("mergeSort should handle floating point numbers", () => {
@@ -180,5 +180,5 @@ test("mergeSort should handle floating point numbers", () => {
     8.8,
     9.9,
   ]
-  expect(mergeSort(arr)).toEqual(sortedArr)
+  expect(mergeSort(arr, (a, b) => a - b)).toEqual(sortedArr)
 })

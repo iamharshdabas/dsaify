@@ -10,31 +10,40 @@ class TreeNode<T> {
   }
 }
 
-export class BinarySearchTree<T> {
+export class BinarySearchTree<T extends number | string> {
   root: TreeNode<T> | null
+  private _size: number
 
   constructor() {
     this.root = null
+    this._size = 0
+  }
+
+  public get size(): number {
+    return this._size
   }
 
   insert(value: T): void {
     const newNode = new TreeNode(value)
     if (!this.root) {
       this.root = newNode
+      this._size++
       return
     }
 
     let current = this.root
-    while (true) {
+    while (current) {
       if (value < current.value) {
         if (!current.left) {
           current.left = newNode
+          this._size++
           return
         }
         current = current.left
       } else {
         if (!current.right) {
           current.right = newNode
+          this._size++
           return
         }
         current = current.right
@@ -43,20 +52,15 @@ export class BinarySearchTree<T> {
   }
 
   find(value: T): boolean {
-    if (!this.root) {
-      return false
-    }
-
     let current = this.root
     while (current) {
       if (value === current.value) {
         return true
       } else if (value < current.value) {
-        current = current.left!
+        current = current.left
       } else {
-        current = current.right!
+        current = current.right
       }
-      if (!current) break
     }
     return false
   }
@@ -84,7 +88,12 @@ export class BinarySearchTree<T> {
   }
 
   delete(value: T): void {
+    const initialSize = this._size
     this.root = this._deleteNode(this.root, value)
+    if (this._size === initialSize && !this.find(value)) {
+      // If size didn't change but value is no longer found, it means it was deleted.
+      this._size--
+    }
   }
 
   private _deleteNode(node: TreeNode<T> | null, value: T): TreeNode<T> | null {
@@ -113,6 +122,11 @@ export class BinarySearchTree<T> {
       }
     }
     return node
+  }
+
+  public clear(): void {
+    this.root = null
+    this._size = 0
   }
 
   inOrderTraversal(callback: (value: T) => void): void {

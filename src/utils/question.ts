@@ -24,7 +24,7 @@ export const getQuestions = (category?: QuestionCategory, level?: Level): Questi
     filteredQuestions = questions
   }
 
-  if (level) {
+  if (level && level !== "All") {
     filteredQuestions = filteredQuestions.filter((q) => q.level === level)
   }
 

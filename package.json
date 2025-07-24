@@ -11,12 +11,18 @@
     "@biomejs/biome": "^2.1.1",
     "lefthook": "^1.12.2"
   },
+  "files": [
+    "out/",
+    "package.json",
+    "README.md"
+  ],
+  "main": "./out/index.js",
   "module": "index.tsx",
   "name": "dsaify",
   "peerDependencies": {
     "typescript": "^5"
   },
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "bun build ./src/index.tsx --outdir ./out --minify --sourcemap --target node",
     "build:watch": "bun run build -- --watch ",
@@ -24,11 +30,13 @@
     "link:package": "bun link dsaify",
     "lint:fix": "biome check --write .",
     "prepare": "lefthook install",
+    "prepublishOnly": "bun run build",
     "start:local": "bun run ./out/index.js",
     "start:package": "dsaify",
     "test": "bun tsc && bun test",
     "unlink:local": "bun unlink",
     "update:questions": "bun src/scripts/update-questions.ts"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.1.0"
 }

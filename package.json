@@ -18,7 +18,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "bun build ./src/index.tsx --outdir ./out --minify --sourcemap --target bun",
+    "build": "bun build ./src/index.tsx --outdir ./out --minify --sourcemap --target node",
     "build:watch": "bun run build -- --watch ",
     "link:local": "bun link",
     "link:package": "bun link dsaify",
